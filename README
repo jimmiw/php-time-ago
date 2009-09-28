@@ -1,0 +1,58 @@
+Inspired by the comments at: "http://dk.php.net/time":http://dk.php.net/time and "http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695":http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
+
+h1. Using this scheme to determine the "ago" time:
+
+<pre><code>
+  0 <-> 29 secs                                                             # => less than a minute
+  30 secs <-> 1 min, 29 secs                                                # => 1 minute
+  1 min, 30 secs <-> 44 mins, 29 secs                                       # => [2..44] minutes
+  44 mins, 30 secs <-> 89 mins, 29 secs                                     # => about 1 hour
+  89 mins, 29 secs <-> 23 hrs, 59 mins, 29 secs                             # => about [2..24] hours
+  23 hrs, 59 mins, 29 secs <-> 47 hrs, 59 mins, 29 secs                     # => 1 day
+  47 hrs, 59 mins, 29 secs <-> 29 days, 23 hrs, 59 mins, 29 secs            # => [2..29] days
+  29 days, 23 hrs, 59 mins, 30 secs <-> 59 days, 23 hrs, 59 mins, 29 secs   # => about 1 month
+  59 days, 23 hrs, 59 mins, 30 secs <-> 1 yr minus 1 sec                    # => [2..12] months
+  1 yr <-> 2 yrs minus 1 secs                                               # => about 1 year
+  2 yrs <-> max time or date                                                # => over [2..X] years
+</code></pre>
+
+h1. Using the class
+
+In order to use the class, simply replace your DateTime with WWDateTime.
+
+Before:
+<pre><code>
+$datetime = new DateTime();
+echo $datetime->format(DATE_RFC3339);
+</code></pre>
+
+After:
+<pre><code>
+$datetime = new WWDateTime();
+echo $datetime->format(DATE_RFC3339);
+</code></pre>
+
+As you can see, there really not that much difference.
+
+In order to get the "Time ago in words" output, all you need to do, is call the 
+function @WWDateTime::timeAgoInWords()@
+
+Using the code from before, we get:
+<pre><code>
+$datetime = new WWDateTime();
+echo $datetime->format(DATE_RFC3339);
+echo $datetime->timeAgoInWords(); // prints out "less than a minute"
+</code></pre>
+
+To test the class properly, we are setting the time 31 seconds back:
+
+<pre><code>
+$datetime = new WWDateTime("-31 second");
+echo $datetime->format(DATE_RFC3339);
+echo $datetime->timeAgoInWords();  // prints out "1 minute"
+</code></pre>
+
+h1. Known bugs
+
+* Around midnight the script fails.
+* Does not follow my definition completely yet.
