@@ -1,8 +1,21 @@
 <?php
 
+/**
+ *  A specialization of the DateTime class, that can print out,
+ *  "how long ago" it was.
+ *
+ *  @author jimmiw
+ *  @since 2009-09-28
+ *  @site http://github.com/jimmiw/php-time-ago
+ */
 class WWDateTime extends DateTime {
+
+  /**
+   *
+   */
   public function __construct(/*string*/ $time = "now", 
     DateTimeZone $timezone = NULL) {
+    
     // if the $timezone is null, we take 'Europe/London' as the default
     // this was done, because the parent construct tossed an exception
     if($timezone == NULL) {
@@ -112,8 +125,7 @@ class WWDateTime extends DateTime {
       else {
         $timeAgoInWords = $this->constructTimeAgoWord(
           1,
-          'minute',
-          1
+          'minute'
         );
       }
     }
@@ -121,6 +133,13 @@ class WWDateTime extends DateTime {
     return $timeAgoInWords;
   }
   
+  /** 
+   *  Finds the difference in the two DateTime objects, using the given format.
+   *  @param from
+   *  @param to
+   *  @param format
+   *  @return the difference in the two DateTime objects
+   */
   private function findDiff(DateTime $from = NULL,
     DateTime $to = NULL,
     $format = NULL) {
@@ -128,6 +147,15 @@ class WWDateTime extends DateTime {
     return $from->format($format) - $to->format($format);
   }
   
+  /**
+   *  Constructs the actual "time ago"-word
+   *  @param timeDifference
+   *  @param timeName
+   *  @param decidingTimeDifference
+   *  @param prefix
+   *  @param postfix
+   *  @return the "time ago"-word generated
+   */
   private function constructTimeAgoWord($timeDiffrence = 0,
     $timeName = NULL,
     $decidingTimeDifference = 1,
