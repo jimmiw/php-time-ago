@@ -1,4 +1,4 @@
-Inspired by the comments at: http://dk.php.net/time and http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
+Inspired by the comments at: "http://dk.php.net/time":http://dk.php.net/time and "http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695":http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
 
 h1. Using this scheme to determine the "ago" time:
 
