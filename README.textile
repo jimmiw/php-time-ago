@@ -16,43 +16,61 @@ h1. Using this scheme to determine the "ago" time:
   2 yrs <-> max time or date                                                # => over [2..X] years
 </code></pre>
 
-h1. Using the class
+h1. Changes since last version
 
-In order to use the class, simply replace your DateTime with WWDateTime.
+Lots have changed since the last version. The WWDateTime class is no longer supported.
+I have implemented a new class which takes a time string as parameter (and a 
+timezone if needed), and calculates the time between them.
 
-Before:
-<pre><code>
-$datetime = new DateTime();
-echo $datetime->format(DATE_RFC3339);
-</code></pre>
+By request from "lsolesen" (a guy from here on github) I did removed the whole
+DateTime dependence thingy.
 
-After:
-<pre><code>
-$datetime = new WWDateTime();
-echo $datetime->format(DATE_RFC3339);
-</code></pre>
+h1. About
 
-As you can see, there really not that much difference.
+This class is here to give you the same functionality that DateTime::diff will give you.
+However, this will work with PHP versions lower than 5.3.0
 
-In order to get the "Time ago in words" output, all you need to do, is call the 
-function @WWDateTime::timeAgoInWords()@
+h1. Two methods instead of just one!
 
-Using the code from before, we get:
-<pre><code>
-$datetime = new WWDateTime();
-echo $datetime->format(DATE_RFC3339);
-echo $datetime->timeAgoInWords(); // prints out "less than a minute"
-</code></pre>
-
-To test the class properly, we are setting the time 31 seconds back:
+There are now two methods you can call: (well, 3, but two important ones!)
 
 <pre><code>
-$datetime = new WWDateTime("-31 second");
-echo $datetime->format(DATE_RFC3339);
-echo $datetime->timeAgoInWords();  // prints out "1 minute"
+$timeAgo = new TimeAgo();
+echo $timeAgo->inWords("2010/1/10 23:05:00");
+
+// OR
+
+echo timeAgoInWords("2010/1/10 23:05:00");
 </code></pre>
+
+Both methods gives the same answer, the "timeAgoInWords()" function is just a
+convenience wrapper for you.
+
+h1. Do you want the actual years, months, days, hours, minutes, seconds difference?
+
+Good news for you then!
+I've implemented a nice little function that does just that for you. Simply do the 
+following:
+
+<pre><code>
+$timeAgo = new TimeAgo();
+$dateDifferenceArray =  $timeAgo->dateDifference("2010/1/10 23:05:00");
+</code></pre>
+
+This will return an array with the following data:
+
+<pre><code>
+array(
+);
+</code></pre>
+
+h1. The old way of doing things.
+
+Just if you wanted to try out the old "time ago" class, I've kept it in the project.
+It will eventually be deleted, but hey, go have fun with it. Perhaps even extend it etc.
+Bear in mind though, that the new DateTime::diff in PHP version 5.3.0 will eventually
+replace it completely. (PHP 5.3.0 DateTime::diff link: http://www.php.net/manual/en/datetime.diff.php)
 
 h1. Known bugs
 
-* Around midnight the script fails.
-* Does not follow my definition completely yet.
+* dateDifference() calculates a bit wrong when finding differences over 1 year.
