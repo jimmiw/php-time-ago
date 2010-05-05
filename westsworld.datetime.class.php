@@ -1,12 +1,15 @@
 <?php
 
 /**
- *  A specialization of the DateTime class, that can print out,
- *  "how long ago" it was.
+ * NOTE: This class is no longer maintained as of version 0.2.0.
+ * You should use the timeAgoInWords("date") convenience method instead.
  *
- *  @author jimmiw
- *  @since 2009-09-28
- *  @site http://github.com/jimmiw/php-time-ago
+ * A specialization of the DateTime class, that can print out,
+ * "how long ago" it was.
+ *
+ * @author jimmiw
+ * @since 2009-09-28
+ * @site http://github.com/jimmiw/php-time-ago
  */
 class WWDateTime extends DateTime {
 
