@@ -1,7 +1,7 @@
 {
     "name": "jimmiw/php-time-ago",
     "description": "Simple module, that displays the date in a \"time ago\" format",
-    "keywords": ["time ago", "distance of time", "time ago in words"]
+    "keywords": ["time ago", "distance of time", "time ago in words"],
     "homepage": "https://github.com/jimmiw/php-time-ago",
     "license": "MIT",
     "authors": [
