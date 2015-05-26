@@ -135,33 +135,46 @@ function test_time($timeAgo, $timeAsItShouldBe) {
   echo "</p>";
 }
 
-test_time("-2 year", "over 2 years");
-timeAgoInWords("-2 year");
-test_time("-1 year", "about 1 year");
-timeAgoInWords("-1 year");
-test_time("-1 month", "about 1 month");
-timeAgoInWords("-1 month");
-test_time("-2 month", "about 2 months");
-timeAgoInWords("-2 month");
-test_time("-1 day", "1 day");
-timeAgoInWords("-1 day");
-test_time("-2 day", "2 days");
-timeAgoInWords("-2 day");
-test_time("-1 hour", "about 1 hour");
-timeAgoInWords("-1 hour");
-test_time("-2 hour", "about 2 hours");
-timeAgoInWords("-2 hour");
-test_time("-1 minute", "about 1 minute");
-timeAgoInWords("-1 minute");
-test_time("-2 minute", "about 2 minutes");
-timeAgoInWords("-2 minute");
-test_time("-44 minute", "about 44 minutes");
-timeAgoInWords("-44 minute");
-test_time("-45 minute", "about 1 hour");
-timeAgoInWords("-45 minute");
-test_time("-1 second", "less than a minute");
-timeAgoInWords("-1 second");
-test_time("-31 second", "1 minute");
-timeAgoInWords("-31 second");
+// test_time("-2 year", "over 2 years");
+// timeAgoInWords("-2 year");
+// test_time("-1 year", "about 1 year");
+// timeAgoInWords("-1 year");
+// test_time("-1 month", "about 1 month");
+// timeAgoInWords("-1 month");
+// test_time("-2 month", "about 2 months");
+// timeAgoInWords("-2 month");
+// test_time("-1 day", "1 day");
+// timeAgoInWords("-1 day");
+// test_time("-2 day", "2 days");
+// timeAgoInWords("-2 day");
+// test_time("-1 hour", "about 1 hour");
+// timeAgoInWords("-1 hour");
+// test_time("-2 hour", "about 2 hours");
+// timeAgoInWords("-2 hour");
+// test_time("-1 minute", "about 1 minute");
+// timeAgoInWords("-1 minute");
+// test_time("-2 minute", "about 2 minutes");
+// timeAgoInWords("-2 minute");
+// test_time("-44 minute", "about 44 minutes");
+// timeAgoInWords("-44 minute");
+// test_time("-45 minute", "about 1 hour");
+// timeAgoInWords("-45 minute");
+// test_time("-1 second", "less than a minute");
+// timeAgoInWords("-1 second");
+// test_time("-31 second", "1 minute");
+// timeAgoInWords("-31 second");
+
+
+echo "<h2>Language testing</h2>";
+echo "<p>";
+  echo "<br/><strong>English</strong><br/>";
+  $timeAgo = new TimeAgo();
+  echo $timeAgo->inWords("2015/5/26 10:00:10","2015/5/26 10:00:20");
+  echo "<br/>";
+  echo "<br/><strong>Danish</strong><br/>";
+  $timeAgo = new TimeAgo(NULL, 'da');
+  echo $timeAgo->inWords("2015/5/26 10:00:10","2015/5/26 10:00:20");
+  echo "<br/>";
+echo "</p>";
 
 ?>
