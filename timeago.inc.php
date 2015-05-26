@@ -21,11 +21,11 @@ function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
  */
 class TimeAgo {
   // defines the number of seconds per "unit"
-  private $secondsPerMinute;
-  private $secondsPerHour;
-  private $secondsPerDay;
-  private $secondsPerMonth;
-  private $secondsPerYear;
+  private $secondsPerMinute = 60;
+  private $secondsPerHour = 3600;
+  private $secondsPerDay = 86400;
+  private $secondsPerMonth = 2592000;
+  private $secondsPerYear = 31104000;
   private $timezone;
 
   // translations variables
@@ -33,12 +33,6 @@ class TimeAgo {
   private static $timeAgoStrings = NULL;
   
   public function __construct($timezone = NULL, $language = 'en') {
-    $this->secondsPerMinute = 60;
-    $this->secondsPerHour = $this->secondsPerMinute * 60;
-    $this->secondsPerDay = $this->secondsPerHour * 24;
-    $this->secondsPerMonth = $this->secondsPerDay * 30;
-    $this->secondsPerYear = $this->secondsPerMonth * 12;
-    
     // if the $timezone is null, we take 'Europe/London' as the default
     // this was done, because the parent construct tossed an exception
     if($timezone == NULL) {
