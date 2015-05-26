@@ -1,7 +1,7 @@
 <?php
 
-function timeAgoInWords($timestring, $timezone = NULL) {
-  $timeAgo = new TimeAgo($timezone);
+function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
+  $timeAgo = new TimeAgo($timezone, $language);
   
   return $timeAgo->inWords($timestring, "now");
 }
@@ -27,8 +27,12 @@ class TimeAgo {
   private $secondsPerMonth;
   private $secondsPerYear;
   private $timezone;
+
+  // translations variables
+  private static $language;
+  private static $timeAgoStrings = NULL;
   
-  public function __construct($timezone = NULL) {
+  public function __construct($timezone = NULL, $language = 'en') {
     $this->secondsPerMinute = 60;
     $this->secondsPerHour = $this->secondsPerMinute * 60;
     $this->secondsPerDay = $this->secondsPerHour * 24;
@@ -40,7 +44,10 @@ class TimeAgo {
     if($timezone == NULL) {
       $timezone = 'Europe/Copenhagen';
     }
-    
+
+    // loads the translation files
+    self::_loadTranslations($language);
+    // storing the current timezone
     $this->timezone = $timezone;
   }
   
@@ -60,18 +67,18 @@ class TimeAgo {
     
     // less than 29secs
     if($timeDifference <= 29) {
-      $timeAgo = "less than a minute";
+      $timeAgo = $this->_translate('lessThanAMinute');
     }
     // more than 29secs and less than 1min29secss
     else if($timeDifference > 29 && $timeDifference <= 89) {
-      $timeAgo = "1 minute";
+      $timeAgo = $this->_translate('oneMinute');
     }
     // between 1min30secs and 44mins29secs
     else if($timeDifference > 89 &&
       $timeDifference <= (($this->secondsPerMinute * 44) + 29)
     ) {
       $minutes = floor($timeDifference / $this->secondsPerMinute);
-      $timeAgo = $minutes." minutes";
+      $timeAgo = $this->_translate('lessThanOneHour', $minutes);
     }
     // between 44mins30secs and 1hour29mins29secs
     else if(
@@ -79,7 +86,7 @@ class TimeAgo {
       &&
       $timeDifference < (($this->secondsPerMinute * 89) + 29)
     ) {
-      $timeAgo = "about 1 hour";
+      $timeAgo = $this->_translate('aboutOneHour');
     }
     // between 1hour29mins30secs and 23hours59mins29secs
     else if(
@@ -95,7 +102,7 @@ class TimeAgo {
       )
     ) {
       $hours = floor($timeDifference / $this->secondsPerHour);
-      $timeAgo = $hours." hours";
+      $timeAgo = $this->_translate('hours', $hours);
     }
     // between 23hours59mins30secs and 47hours59mins29secs
     else if(
@@ -111,7 +118,7 @@ class TimeAgo {
         29
       )
     ) {
-      $timeAgo = "1 day";
+      $timeAgo = $this->_translate('aboutOneDay');
     }
     // between 47hours59mins30secs and 29days23hours59mins29secs
     else if(
@@ -129,7 +136,7 @@ class TimeAgo {
       )
     ) {
       $days = floor($timeDifference / $this->secondsPerDay);
-      $timeAgo = $days." days";
+      $timeAgo = $this->_translate('days', $days);
     }
     // between 29days23hours59mins30secs and 59days23hours59mins29secs
     else if(
@@ -147,7 +154,7 @@ class TimeAgo {
         29
       )
     ) {
-      $timeAgo = "about 1 month";
+      $timeAgo = $this->_translate('aboutOneMonth');
     }
     // between 59days23hours59mins30secs and 1year (minus 1sec)
     else if(
@@ -166,7 +173,7 @@ class TimeAgo {
         $months = 2;
       }
       
-      $timeAgo = $months." months";
+      $timeAgo = $this->_translate('months', $months);
     }
     // between 1year and 2years (minus 1sec)
     else if(
@@ -174,14 +181,14 @@ class TimeAgo {
       &&
       $timeDifference < ($this->secondsPerYear * 2)
     ) {
-      $timeAgo = "about 1 year";
+      $timeAgo = $this->_translate('aboutOneYear');
     }
     // 2years or more
     else {
       $years = floor($timeDifference / $this->secondsPerYear);
-      $timeAgo = "over ".$years." years";
+      $timeAgo = $this->_translate('years', $years);
     }
-    
+
     return $timeAgo;
   }
   
@@ -260,6 +267,37 @@ class TimeAgo {
     );
     
     return $difference;
+  }
+
+  /**
+   * Translates the given $label, and adds the given $time.
+   * @param string $label the label to translate
+   * @param string $time the time to add to the translated text.
+   * @return string the translated label text including the time.
+   */
+  private function _translate($label, $time = '') {
+    return sprintf(self::$timeAgoStrings[$label], $time);
+  }
+
+  /**
+   * Loads the translations into the system.
+   */
+  private static function _loadTranslations($language) {
+    // no time strings loaded? load them and store it all in static variables
+    if (self::$timeAgoStrings == NULL || self::$language != $language) {
+      include(__DIR__ . '/translations/' . $language . '.php');
+
+      // storing the time strings in the current object
+      self::$timeAgoStrings = $timeAgoStrings;
+
+      // loads the language files
+      if (self::$timeAgoStrings == NULL) {
+        error_log('Could not load language file for language ' . $language .'. Please ensure that the file exists in ' . __DIR__ . 'translations/' . $language . '.php');
+      }
+    }
+
+    // storing the language
+    self::$language = $language;
   }
 }
 
