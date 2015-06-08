@@ -74,19 +74,19 @@ class TimeAgo {
       $minutes = floor($timeDifference / $this->secondsPerMinute);
       $timeAgo = $this->_translate('lessThanOneHour', $minutes);
     }
-    // between 44mins30secs and 1hour29mins29secs
+    // between 44mins30secs and 1hour59mins59secs
     else if(
       $timeDifference > (($this->secondsPerMinute * 44) + 29)
       &&
-      $timeDifference < (($this->secondsPerMinute * 89) + 29)
+      $timeDifference < (($this->secondsPerMinute * 119) + 59)
     ) {
       $timeAgo = $this->_translate('aboutOneHour');
     }
-    // between 1hour29mins30secs and 23hours59mins29secs
+    // between 1hour59mins59secs and 23hours59mins29secs
     else if(
       $timeDifference > (
-        ($this->secondsPerMinute * 89) +
-        29
+        ($this->secondsPerMinute * 119) +
+        59
       )
       &&
       $timeDifference <= (
@@ -294,5 +294,3 @@ class TimeAgo {
     self::$language = $language;
   }
 }
-
-?>
