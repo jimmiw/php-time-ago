@@ -83,6 +83,7 @@ echo timeAgoInWords("2010/1/10 23:05:00", $timeZone, 'da');
 </code></pre>
 
 h1. Changes (versions)
+0.4.5: Fix for wrongly named variable - patch from @rimager
 0.4.4: Changed the previous fix, since it caused a problem with the "Scheme" at the start of this document. "about 1 hour ago" is between 44mins30secs and 89mins29secs.
 0.4.3: Added a fix for "about 1 hour ago", which would yield "1 hours ago" if the time was 1hour 30minutes. Giving a pluralization error.
 0.4.2: Added German translations .
