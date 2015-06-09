@@ -78,7 +78,7 @@ class TimeAgo {
     else if(
       $timeDifference > (($this->secondsPerMinute * 44) + 29)
       &&
-      $timeDifference < ($this->$secondsPerHour + ($this->secondsPerMinute * 29) + 59)
+      $timeDifference < ($this->secondsPerHour + ($this->secondsPerMinute * 29) + 59)
     ) {
       $timeAgo = $this->_translate('aboutOneHour');
     }
