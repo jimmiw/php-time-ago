@@ -59,35 +59,39 @@ class TimeAgo {
     // finds the time difference
     $timeDifference = $now - $past;
     
+    // rule 1
     // less than 29secs
     if($timeDifference <= 29) {
       $timeAgo = $this->_translate('lessThanAMinute');
     }
+    // rule 2
     // more than 29secs and less than 1min29secss
-    else if($timeDifference > 29 && $timeDifference <= 89) {
+    else if($timeDifference >= 30 && $timeDifference <= 89) {
       $timeAgo = $this->_translate('oneMinute');
     }
+    // rule 3
     // between 1min30secs and 44mins29secs
-    else if($timeDifference > 89 &&
+    else if($timeDifference >= 90 &&
       $timeDifference <= (($this->secondsPerMinute * 44) + 29)
     ) {
-      $minutes = floor($timeDifference / $this->secondsPerMinute);
+      $minutes = round($timeDifference / $this->secondsPerMinute);
       $timeAgo = $this->_translate('lessThanOneHour', $minutes);
     }
+    // rule 4
     // between 44mins30secs and 1hour29mins59secs
     else if(
-      $timeDifference > (($this->secondsPerMinute * 44) + 29)
+      $timeDifference >= (($this->secondsPerMinute * 44) + 30)
       &&
-      $timeDifference < ($this->secondsPerHour + ($this->secondsPerMinute * 29) + 59)
+      $timeDifference <= ($this->secondsPerHour + ($this->secondsPerMinute * 29) + 59)
     ) {
       $timeAgo = $this->_translate('aboutOneHour');
     }
+    // rule 5
     // between 1hour29mins59secs and 23hours59mins29secs
     else if(
-      $timeDifference > (
+      $timeDifference >= (
         $this->secondsPerHour +
-        ($this->secondsPerMinute * 29) +
-        59
+        ($this->secondsPerMinute * 30)
       )
       &&
       $timeDifference <= (
@@ -96,22 +100,16 @@ class TimeAgo {
         29
       )
     ) {
-      $hours = floor($timeDifference / $this->secondsPerHour);
-
-      // if "flooring" the difference yields 1 hour, that time is changed to
-      // 2 hours, to compensate for 1hour 30minutes, given 1 instead of 2.
-      if ($hours == 1) {
-        $hours = 2;
-      }
-
+      $hours = round($timeDifference / $this->secondsPerHour);
       $timeAgo = $this->_translate('hours', $hours);
     }
+    // rule 6
     // between 23hours59mins30secs and 47hours59mins29secs
     else if(
-      $timeDifference > (
+      $timeDifference >= (
         ($this->secondsPerHour * 23) +
         ($this->secondsPerMinute * 59) +
-        29
+        30
       )
       &&
       $timeDifference <= (
@@ -122,12 +120,13 @@ class TimeAgo {
     ) {
       $timeAgo = $this->_translate('aboutOneDay');
     }
+    // rule 7
     // between 47hours59mins30secs and 29days23hours59mins29secs
     else if(
-      $timeDifference > (
+      $timeDifference >= (
         ($this->secondsPerHour * 47) +
         ($this->secondsPerMinute * 59) +
-        29
+        30
       )
       &&
       $timeDifference <= (
@@ -137,16 +136,17 @@ class TimeAgo {
         29
       )
     ) {
-      $days = floor($timeDifference / $this->secondsPerDay);
+      $days = round($timeDifference / $this->secondsPerDay);
       $timeAgo = $this->_translate('days', $days);
     }
+    // rule 8
     // between 29days23hours59mins30secs and 59days23hours59mins29secs
     else if(
-      $timeDifference > (
+      $timeDifference >= (
         ($this->secondsPerDay * 29) +
         ($this->secondsPerHour * 23) +
         ($this->secondsPerMinute * 59) +
-        29
+        30
       )
       &&
       $timeDifference <= (
@@ -158,13 +158,14 @@ class TimeAgo {
     ) {
       $timeAgo = $this->_translate('aboutOneMonth');
     }
+    // rule 9
     // between 59days23hours59mins30secs and 1year (minus 1sec)
     else if(
-      $timeDifference > (
+      $timeDifference >= (
         ($this->secondsPerDay * 59) + 
         ($this->secondsPerHour * 23) +
         ($this->secondsPerMinute * 59) +
-        29
+        30
       )
       &&
       $timeDifference < $this->secondsPerYear
@@ -177,6 +178,7 @@ class TimeAgo {
       
       $timeAgo = $this->_translate('months', $months);
     }
+    // rule 10
     // between 1year and 2years (minus 1sec)
     else if(
       $timeDifference >= $this->secondsPerYear
@@ -185,6 +187,7 @@ class TimeAgo {
     ) {
       $timeAgo = $this->_translate('aboutOneYear');
     }
+    // rule 11
     // 2years or more
     else {
       $years = floor($timeDifference / $this->secondsPerYear);

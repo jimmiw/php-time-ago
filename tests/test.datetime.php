@@ -37,7 +37,7 @@ echo "<p>";
   
   echo "<br/><strong>rule 5</strong>(89 mins, 29 secs <-> 23 hrs, 59 mins, 29 secs # => about [2..24] hours)<br/>";
   $timeAgo = new TimeAgo();
-  echo $timeAgo->inWords("2010/4/26 22:03:28","2010/4/26 23:32:58");
+  echo $timeAgo->inWords("2010/4/26 00:00:00","2010/4/26 01:30:00");
   echo "<br/>";
   $timeAgo = new TimeAgo();
   echo $timeAgo->inWords("2010/4/26 00:00:00","2010/4/26 13:49:00");
