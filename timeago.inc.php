@@ -36,7 +36,7 @@ class TimeAgo {
     // if the $timezone is null, we take 'Europe/London' as the default
     // this was done, because the parent construct tossed an exception
     if($timezone == NULL) {
-      $timezone = 'Europe/Copenhagen';
+      $timezone = date_default_timezone_get() ?: 'Europe/London';
     }
 
     // loads the translation files
@@ -44,14 +44,22 @@ class TimeAgo {
     // storing the current timezone
     $this->timezone = $timezone;
   }
+
+  public static function createFromTranslation(array $translations, $language = 'en', $timezone = NULL)
+  {
+    $timeAgo = new self($timezone);
+    $timeAgo->language = $language;
+    $timeAgo::$timeAgoStrings = $translations;
+    return $timeAgo;
+  }
   
   public function inWords($past, $now = "now") {
-    // sets the default timezone
-    date_default_timezone_set($this->timezone);
-    // finds the past in datetime
-    $past = strtotime($past);
-    // finds the current datetime
-    $now = strtotime($now);
+    // create a DateTime object with $now as reference, with pre-set timezone
+    // this approach does not change default timezone setting
+    $dateTime = new DateTime($now, new DateTimeZone($this->timezone));
+    // retrieve timestamps required for the calculations
+    $now = $dateTime->getTimestamp();
+    $past = $dateTime->modify($past)->getTimestamp();
     
     // creates the "time ago" string. This always starts with an "about..."
     $timeAgo = "";
@@ -206,13 +214,12 @@ class TimeAgo {
     $months = 0;
     $years = 0;
     
-    // sets the default timezone
-    date_default_timezone_set($this->timezone);
-    
-    // finds the past in datetime
-    $past = strtotime($past);
-    // finds the current datetime
-    $now = strtotime($now);
+    // create a DateTime object with $now as reference, with pre-set timezone
+    // this approach does not change default timezone setting
+    $dateTime = new DateTime($now, new DateTimeZone($this->timezone));
+    // retrieve timestamps required for the calculations
+    $now = $dateTime->getTimestamp();
+    $past = $dateTime->modify($past)->getTimestamp();
     
     // calculates the difference
     $timeDifference = $now - $past;

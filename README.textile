@@ -29,6 +29,10 @@ h1. About
 
 This class is here to give you the same functionality that DateTime::diff will give you.
 However, this will work with PHP versions lower than 5.3.0
+To achieve this, you can copy over the contents of the dateDifference method, remove any
+references to DateTime or DateTimeZone and just use strtotime to retrieve a proper timestamp
+from the $past and $now arguments.
+But please never rely on end of life PHP versions.
 
 This code is also available on Packagist: https://packagist.org/packages/jimmiw/php-time-ago
 
@@ -74,7 +78,7 @@ The translation is simply a language code string added to the end of the class i
 Examples using the Danish translations:
 
 <pre><code>
-$timeZone = NULL; // just use the system timezone
+$timeZone = NULL; // just use the system timezone, or Europe/London if not set
 
 $timeAgo = new TimeAgo($timeZone, 'da');
 echo $timeAgo->inWords("2010/1/10 23:05:00");
