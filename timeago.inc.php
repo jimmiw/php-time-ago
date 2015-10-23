@@ -36,7 +36,7 @@ class TimeAgo {
     // if the $timezone is null, we take 'Europe/London' as the default
     // this was done, because the parent construct tossed an exception
     if($timezone == NULL) {
-      $timezone = 'Europe/Copenhagen';
+      $timezone = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'Europe/Copenhagen';
     }
 
     // loads the translation files
@@ -59,9 +59,14 @@ class TimeAgo {
     // finds the time difference
     $timeDifference = $now - $past;
     
+    //rule 0
+    // $past is null or empty
+    if (is_null($past) || empty($past) $past === '') {
+      $timeAgo = $this->_translate('never');
+    }
     // rule 1
     // less than 29secs
-    if($timeDifference <= 29) {
+    else if($timeDifference <= 29) {
       $timeAgo = $this->_translate('lessThanAMinute');
     }
     // rule 2
