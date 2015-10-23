@@ -11,5 +11,6 @@ $timeAgoStrings = array(
   'lessThanOneHour' => "depuis %s minutes",
   'months' => "depuis %s mois",
   'oneMinute' => "depuis 1 minute",
-  'years' => "depuis plus de %s années"
+  'years' => "depuis plus de %s années",
+  'never' => 'jamais'
 );
