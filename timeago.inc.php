@@ -59,9 +59,14 @@ class TimeAgo {
     // finds the time difference
     $timeDifference = $now - $past;
     
+    // rule 0
+    // $past is null or empty or ''
+    if ($past === '' || is_null($past) || empty($past)) {
+      $timeAgo = $this->_translate('never');
+    }
     // rule 1
     // less than 29secs
-    if($timeDifference <= 29) {
+    else if($timeDifference <= 29) {
       $timeAgo = $this->_translate('lessThanAMinute');
     }
     // rule 2
