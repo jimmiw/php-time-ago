@@ -30,6 +30,8 @@ h1. About
 This class is here to give you the same functionality that DateTime::diff will give you.
 However, this will work with PHP versions lower than 5.3.0
 
+This code is also available on Packagist: https://packagist.org/packages/jimmiw/php-time-ago
+
 h1. Two methods instead of just one!
 
 There are now two methods you can call: (well, 3, but two important ones!)
