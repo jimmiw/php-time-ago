@@ -84,6 +84,7 @@ echo timeAgoInWords("2010/1/10 23:05:00", $timeZone, 'da');
 
 h1. Changes (versions)
 
+0.4.8: Added French and Japanese and Taiwanese translations (thanks to @barohatoum and @hotengchang)
 0.4.7: Changes to fix annoying "floor" bugs.
 0.4.6: Added Dutch and Chinese translations (thanks to @NielsdeBlaauw and @su-xiaolin)
 0.4.5: Fix for wrongly named variable - patch from @rimager
