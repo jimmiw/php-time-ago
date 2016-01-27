@@ -50,12 +50,12 @@ class TimeAgo {
     date_default_timezone_set($this->timezone);
     // finds the past in datetime
     if(((string) (int) $past !== $past) || ($past >= PHP_INT_MAX) || ($past <= ~PHP_INT_MAX)) {
-		  $past = strtotime($past);
-	  }
+      $past = strtotime($past);
+    }
     // finds the current datetime
     if(((string) (int) $now !== $now) || ($now >= PHP_INT_MAX) || ($now <= ~PHP_INT_MAX)) {
-		  $now = strtotime($now);
-	  }
+      $now = strtotime($now);
+    }
     // creates the "time ago" string. This always starts with an "about..."
     $timeAgo = "";
     
