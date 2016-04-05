@@ -1,10 +1,15 @@
 <?php
 
-function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
-  $timeAgo = new TimeAgo($timezone, $language);
-  
-  return $timeAgo->inWords($timestring, "now");
+// To allow overriding this function as will, if someone wants to use a derived class of `TimeAgo`
+if(!function_exists('timeAgoInWords')) {
+  function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
+    $timeAgo = new TimeAgo($timezone, $language);
+
+    return $timeAgo->inWords($timestring, "now");
+  }
 }
+
+
 
 /** 
  * This class can help you find out just how much time has passed between
@@ -287,10 +292,14 @@ class TimeAgo {
   /**
    * Loads the translations into the system.
    */
-  private static function _loadTranslations($language) {
+  protected static function _loadTranslations($language, $alternate_path = null) {
     // no time strings loaded? load them and store it all in static variables
     if (self::$timeAgoStrings == NULL || self::$language != $language) {
       include(__DIR__ . '/translations/' . $language . '.php');
+
+      if(!isset($timeAgoStrings) && $alternate_path) {
+        include($alternate_path);
+      }
 
       // storing the time strings in the current object
       self::$timeAgoStrings = $timeAgoStrings;
