@@ -1,6 +1,6 @@
 <?php
 
-return [
+$timeAgoStrings = array(
     'aboutOneDay' => "אתמול",
     'aboutOneHour' => "לפני שעה",
     'aboutOneMonth' => "לפני חודש",
@@ -12,4 +12,4 @@ return [
     'months' => "לפני %s חודשים",
     'oneMinute' => "לפני דקה",
     'years' => "יותר מ-%s שנים"
-];
+);
