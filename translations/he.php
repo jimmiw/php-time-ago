@@ -1,5 +1,4 @@
 <?php
-
 $timeAgoStrings = array(
     'aboutOneDay' => "אתמול",
     'aboutOneHour' => "לפני שעה",
