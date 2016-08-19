@@ -46,6 +46,7 @@ class TimeAgo {
   }
   
   public function inWords($past, $now = "now") {
+    $oldTimezone = date_default_timezone_get();
     // sets the default timezone
     date_default_timezone_set($this->timezone);
     // finds the past in datetime
@@ -193,7 +194,10 @@ class TimeAgo {
       $years = floor($timeDifference / $this->secondsPerYear);
       $timeAgo = $this->_translate('years', $years);
     }
-
+    
+    // Restore system timezone
+    date_default_timezone_set($oldTimezone);
+    
     return $timeAgo;
   }
   
