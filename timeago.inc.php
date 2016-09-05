@@ -281,6 +281,13 @@ class TimeAgo {
    * @return string the translated label text including the time.
    */
   private function _translate($label, $time = '') {
+    // handles a usecase introduced in #18, where a new translation was added.
+    // This would cause an array-out-of-bound exception, since the index does not
+    // exist in most translations.
+    if (! isset(self::$timeAgoStrings[$label])) {
+      return '';
+    }
+
     return sprintf(self::$timeAgoStrings[$label], $time);
   }
 
