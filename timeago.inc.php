@@ -329,7 +329,8 @@ class TimeAgo {
   private function changeTimezone() {
     $this->previousTimezone = false;
     if ($this->timezone) {
-      $this->timezone = date_default_timezone_get();
+      $this->previousTimezone = date_default_timezone_get();
+      date_default_timezone_set($this->timezone);
     }
   }
 
