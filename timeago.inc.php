@@ -1,10 +1,15 @@
 <?php
 
-function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
-  $timeAgo = new TimeAgo($timezone, $language);
-  
-  return $timeAgo->inWords($timestring, "now");
+// To allow overriding this function as will, if someone wants to use a derived class of `TimeAgo`
+if(!function_exists('timeAgoInWords')) {
+  function timeAgoInWords($timestring, $timezone = NULL, $language = 'en') {
+    $timeAgo = new TimeAgo($timezone, $language);
+
+    return $timeAgo->inWords($timestring, "now");
+  }
 }
+
+
 
 /** 
  * This class can help you find out just how much time has passed between
@@ -27,17 +32,13 @@ class TimeAgo {
   private $secondsPerMonth = 2592000;
   private $secondsPerYear = 31104000;
   private $timezone;
+  private $previousTimezone;
 
   // translations variables
   private static $language;
   private static $timeAgoStrings = NULL;
   
   public function __construct($timezone = NULL, $language = 'en') {
-    // if the $timezone is null, we take 'Europe/London' as the default
-    // this was done, because the parent construct tossed an exception
-    if($timezone == NULL) {
-      $timezone = 'Europe/Copenhagen';
-    }
 
     // loads the translation files
     self::_loadTranslations($language);
@@ -47,7 +48,7 @@ class TimeAgo {
   
   public function inWords($past, $now = "now") {
     // sets the default timezone
-    date_default_timezone_set($this->timezone);
+    $this->changeTimezone();
     // finds the past in datetime
     $past = strtotime($past);
     // finds the current datetime
@@ -59,9 +60,14 @@ class TimeAgo {
     // finds the time difference
     $timeDifference = $now - $past;
     
+    // rule 0
+    // $past is null or empty or ''
+    if ($past === '' || is_null($past) || empty($past)) {
+      $timeAgo = $this->_translate('never');
+    }
     // rule 1
     // less than 29secs
-    if($timeDifference <= 29) {
+    else if($timeDifference <= 29) {
       $timeAgo = $this->_translate('lessThanAMinute');
     }
     // rule 2
@@ -194,6 +200,8 @@ class TimeAgo {
       $timeAgo = $this->_translate('years', $years);
     }
 
+    $this->restoreTimezone();
+
     return $timeAgo;
   }
   
@@ -207,7 +215,7 @@ class TimeAgo {
     $years = 0;
     
     // sets the default timezone
-    date_default_timezone_set($this->timezone);
+    $this->changeTimezone();
     
     // finds the past in datetime
     $past = strtotime($past);
@@ -261,6 +269,8 @@ class TimeAgo {
           $seconds = $timeDifference;
       }
     }
+
+    $this->restoreTimezone();
     
     $difference = array(
       "years" => $years,
@@ -281,16 +291,27 @@ class TimeAgo {
    * @return string the translated label text including the time.
    */
   private function _translate($label, $time = '') {
+    // handles a usecase introduced in #18, where a new translation was added.
+    // This would cause an array-out-of-bound exception, since the index does not
+    // exist in most translations.
+    if (! isset(self::$timeAgoStrings[$label])) {
+      return '';
+    }
+
     return sprintf(self::$timeAgoStrings[$label], $time);
   }
 
   /**
    * Loads the translations into the system.
    */
-  private static function _loadTranslations($language) {
+  protected static function _loadTranslations($language, $alternate_path = null) {
     // no time strings loaded? load them and store it all in static variables
     if (self::$timeAgoStrings == NULL || self::$language != $language) {
       include(__DIR__ . '/translations/' . $language . '.php');
+
+      if(!isset($timeAgoStrings) && $alternate_path) {
+        include($alternate_path);
+      }
 
       // storing the time strings in the current object
       self::$timeAgoStrings = $timeAgoStrings;
@@ -303,5 +324,20 @@ class TimeAgo {
 
     // storing the language
     self::$language = $language;
+  }
+
+  private function changeTimezone() {
+    $this->previousTimezone = false;
+    if ($this->timezone) {
+      $this->previousTimezone = date_default_timezone_get();
+      date_default_timezone_set($this->timezone);
+    }
+  }
+
+  private function restoreTimezone() {
+    if ($this->previousTimezone) {
+      date_default_timezone_set($this->previousTimezone);
+      $this->previousTimezone = false;
+    }
   }
 }

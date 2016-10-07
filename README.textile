@@ -86,6 +86,10 @@ echo timeAgoInWords("2010/1/10 23:05:00", $timeZone, 'da');
 
 h1. Changes (versions)
 
+0.4.14: Added Arabic translation (@xc0d3rz)
+0.4.13: @jmontoyaa fixed a timezone setting bug
+0.4.12: Merged #18, #33 (you can now supply an alternative translations folder), #35 and Added Czech (@misaon)
+0.4.11: Changes to French translation (@souhailmerroun). Added Russian and Ukranian translations (@akavolkol)
 0.4.10: Added Korean and Finnish translations (thanks to @easylogic and @tk1sul1)
 0.4.9: Added Spanish and Hungarian and Brazilian Portuguese (thanks to @khrizt and @technodelight and @gugoan)
 0.4.8: Added French and Japanese and Taiwanese translations (thanks to @barohatoum and @hotengchang)
