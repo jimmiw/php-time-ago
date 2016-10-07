@@ -18,7 +18,7 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">../src</directory>
+            <file>../timeago.inc.php</file>
         </whitelist>
     </filter>
 </phpunit>

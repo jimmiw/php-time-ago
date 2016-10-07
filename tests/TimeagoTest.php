@@ -11,4 +11,10 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(true);
     }
+
+    public function testInit()
+    {
+        $timeAgo = new TimeAgo();
+        $this->assertNotNull($timeAgo);
+    }
 }
