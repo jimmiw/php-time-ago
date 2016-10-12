@@ -68,7 +68,29 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
 
         // testing 2..12 months
         $this->assertContains('months ago', $timeAgo->inWords("-59 day -23 hour -59 minute -30 second"));
-        //$this->assertContains('months ago', $timeAgo->inWords("-1 year 0 second"));
-        //$this->assertNotContains('months ago', $timeAgo->inWords("-29 day -23 hour -59 minute -30 second"));
+
+        // seemed to be the easiest way to get 1 year - 1 second, which should be the day before 1 year ago :)
+        $oneYearAgo = strtotime("-1 year");
+        $this->assertContains('months ago', $timeAgo->inWords(date('U', $oneYearAgo) - 1));
+        $this->assertNotContains('months ago', $timeAgo->inWords($oneYearAgo));
+
+        // testing 1 year
+        $this->assertContains('1 year ago', $timeAgo->inWords("-1 year"));
+        $twoYearsAgo = strtotime("-2 year");
+        $this->assertContains('1 year ago', $timeAgo->inWords(date('U', $twoYearsAgo) - 1));
+        $this->assertNotContains('1 year ago', $timeAgo->inWords($twoYearsAgo));
+
+        // testing 2 years or more
+        $this->assertEquals('over 2 years ago', $timeAgo->inWords("-2 year"));
+        $this->assertEquals('over 2 years ago', $timeAgo->inWords("-2 year - 59 day"));
+        $this->assertEquals('over 3 years ago', $timeAgo->inWords("-3 year"));
+        $this->assertEquals('over 4 years ago', $timeAgo->inWords("-4 year"));
+        $this->assertEquals('over 5 years ago', $timeAgo->inWords("-5 year"));
+        $this->assertEquals('over 6 years ago', $timeAgo->inWords("-6 year"));
+        $this->assertEquals('over 7 years ago', $timeAgo->inWords("-7 year"));
+        $this->assertEquals('over 8 years ago', $timeAgo->inWords("-8 year"));
+        $this->assertEquals('over 9 years ago', $timeAgo->inWords("-9 year"));
+        $this->assertEquals('over 10 years ago', $timeAgo->inWords("-10 year"));
+        // you get the point right?...
     }
 }
