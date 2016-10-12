@@ -18,6 +18,9 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($timeAgo);
     }
 
+    /**
+     * Tests the old core functionality, by being in the same timezone and not changing language.
+     */
     public function testTimeAgoInWords()
     {
         $timeAgo = new TimeAgo();
