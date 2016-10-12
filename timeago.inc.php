@@ -39,15 +39,26 @@ class TimeAgo
     private static $language;
     private static $timeAgoStrings = null;
 
+    /**
+     * TimeAgo constructor.
+     * @param null|DateTimeZone $timezone the timezone to use (uses system if none is given)
+     * @param string $language the language to use (defaults to 'en' for english)
+     */
     public function __construct($timezone = null, $language = 'en')
     {
-
         // loads the translation files
         self::_loadTranslations($language);
         // storing the current timezone
         $this->timezone = $timezone;
     }
 
+    /**
+     * Fetches the different between $past and $now in a spoken format.
+     * NOTE: both past and now should be parseable by strtotime
+     * @param string $past the past date to use
+     * @param string $now the current time, defaults to now (can be an other time though)
+     * @return string the difference in spoken format, e.g. 1 day ago
+     */
     public function inWords($past, $now = "now")
     {
         // sets the default timezone
@@ -208,6 +219,14 @@ class TimeAgo
         return $timeAgo;
     }
 
+    /**
+     * Fetches the date difference between the two given dates.
+     * NOTE: both past and now should be parseable by strtotime
+     *
+     * @param string $past the "past" time to parse
+     * @param string $now the "now" time to parse
+     * @return array the difference in dates, using the two dates
+     */
     public function dateDifference($past, $now = "now")
     {
         // initializes the placeholders for the different "times"
