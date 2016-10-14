@@ -31,7 +31,7 @@ class TimeAgo
     private $secondsPerHour = 3600;
     private $secondsPerDay = 86400;
     private $secondsPerMonth = 2592000;
-    private $secondsPerYear = 31104000;
+    private $secondsPerYear = 31536000; // 31622400 seconds on leap years though...
     private $timezone;
     private $previousTimezone;
 

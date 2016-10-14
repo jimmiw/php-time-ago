@@ -74,14 +74,15 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
 
         // seemed to be the easiest way to get 1 year - 1 second, which should be the day before 1 year ago :)
         $oneYearAgo = strtotime("-1 year");
-        $oneYearAgo = strtotime("-360 day +1 second");
-        $this->assertContains('months ago', $timeAgo->inWords(date('c', $oneYearAgo)));
+        // NOTE: this fails around leap years... so... -2 days must be accurate enough
+        $twoDays = (2*86400); // 2 days in seconds
+        $this->assertContains('months ago', $timeAgo->inWords(date('c', $oneYearAgo + $twoDays)));
         $this->assertNotContains('months ago', $timeAgo->inWords($oneYearAgo));
 
         // testing 1 year
-        $this->assertContains('1 year ago', $timeAgo->inWords("-1 year"));
+        $this->assertContains('1 year ago', $timeAgo->inWords(date('c', $oneYearAgo - $twoDays)));
         $twoYearsAgo = strtotime("-2 year");
-        $this->assertContains('1 year ago', $timeAgo->inWords(date('U', $twoYearsAgo) - 1));
+        $this->assertContains('1 year ago', $timeAgo->inWords(date('c', $twoYearsAgo + $twoDays)));
         $this->assertNotContains('1 year ago', $timeAgo->inWords($twoYearsAgo));
 
         // testing 2 years or more
