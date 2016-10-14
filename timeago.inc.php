@@ -313,7 +313,7 @@ class TimeAgo
      * @param string $time the time to add to the translated text.
      * @return string the translated label text including the time.
      */
-    private function _translate($label, $time = '')
+    protected function _translate($label, $time = '')
     {
         // handles a usecase introduced in #18, where a new translation was added.
         // This would cause an array-out-of-bound exception, since the index does not
@@ -351,7 +351,7 @@ class TimeAgo
         self::$language = $language;
     }
 
-    private function changeTimezone()
+    protected function changeTimezone()
     {
         $this->previousTimezone = false;
         if ($this->timezone) {
@@ -360,7 +360,7 @@ class TimeAgo
         }
     }
 
-    private function restoreTimezone()
+    protected function restoreTimezone()
     {
         if ($this->previousTimezone) {
             date_default_timezone_set($this->previousTimezone);
