@@ -332,7 +332,12 @@ class TimeAgo
     {
         // no time strings loaded? load them and store it all in static variables
         if (self::$timeAgoStrings == null || self::$language != $language) {
-            include(__DIR__ . '/translations/' . $language . '.php');
+            $file = __DIR__ . '/translations/' . $language . '.php';             
+            if (!file_exists($file) {            
+                $file = __DIR__ . '/translations/en.php';                            
+            }
+                
+            include($file);
 
             if (!isset($timeAgoStrings) && $alternate_path) {
                 include($alternate_path);
