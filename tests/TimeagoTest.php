@@ -98,4 +98,13 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('over 10 years ago', $timeAgo->inWords("-10 year"));
         // you get the point right?...
     }
+
+    /**
+     * Tries to load an unknown translation
+     * @expectedException Exception
+     */
+    public function testUnknownTranslation()
+    {
+        new TimeAgo(null, 'asd');
+    }
 }
