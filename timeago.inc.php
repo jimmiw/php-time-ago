@@ -76,86 +76,44 @@ class TimeAgo
 
         // rule 0
         // $past is null or empty or ''
-        if ($past === '' || is_null($past) || empty($past)) {
+        if ($this->isPastEmpty($past)) {
             $timeAgo = $this->_translate('never');
         }
         // rule 1
         // less than 29secs
-        else if ($timeDifference <= 29) {
+        else if ($this->isLessThan29Seconds($timeDifference)) {
             $timeAgo = $this->_translate('lessThanAMinute');
         }
         // rule 2
         // more than 29secs and less than 1min29secss
-        else if ($timeDifference >= 30 && $timeDifference <= 89) {
+        else if ($this->isLessThan1Min29Seconds($timeDifference)) {
             $timeAgo = $this->_translate('oneMinute');
         }
         // rule 3
         // between 1min30secs and 44mins29secs
-        else if ($timeDifference >= 90 &&
-            $timeDifference <= (($this->secondsPerMinute * 44) + 29)
-        ) {
+        else if ($this->isLessThan44Min29Secs($timeDifference)) {
             $minutes = round($timeDifference / $this->secondsPerMinute);
             $timeAgo = $this->_translate('lessThanOneHour', $minutes);
         }
         // rule 4
         // between 44mins30secs and 1hour29mins59secs
-        else if (
-            $timeDifference >= (($this->secondsPerMinute * 44) + 30)
-            &&
-            $timeDifference <= ($this->secondsPerHour + ($this->secondsPerMinute * 29) + 59)
-        ) {
+        else if ($this->isLessThan1Hour29Mins59Seconds($timeDifference)) {
             $timeAgo = $this->_translate('aboutOneHour');
         }
         // rule 5
         // between 1hour29mins59secs and 23hours59mins29secs
-        else if (
-            $timeDifference >= (
-                $this->secondsPerHour +
-                ($this->secondsPerMinute * 30)
-            )
-            &&
-            $timeDifference <= (
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                29
-            )
-        ) {
+        else if ($this->isLessThan23Hours59Mins29Seconds($timeDifference)) {
             $hours = round($timeDifference / $this->secondsPerHour);
             $timeAgo = $this->_translate('hours', $hours);
         }
         // rule 6
         // between 23hours59mins30secs and 47hours59mins29secs
-        else if (
-            $timeDifference >= (
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                30
-            )
-            &&
-            $timeDifference <= (
-                ($this->secondsPerHour * 47) +
-                ($this->secondsPerMinute * 59) +
-                29
-            )
-        ) {
+        else if ($this->isLessThan47Hours59Mins29Seconds($timeDifference)) {
             $timeAgo = $this->_translate('aboutOneDay');
         }
         // rule 7
         // between 47hours59mins30secs and 29days23hours59mins29secs
-        else if (
-            $timeDifference >= (
-                ($this->secondsPerHour * 47) +
-                ($this->secondsPerMinute * 59) +
-                30
-            )
-            &&
-            $timeDifference <= (
-                ($this->secondsPerDay * 29) +
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                29
-            )
-        ) {
+        else if ($this->isLessThan29Days23Hours59Mins29Seconds($timeDifference)) {
             $days = round($timeDifference / $this->secondsPerDay);
             $timeAgo = $this->_translate('days', $days);
         }
@@ -385,5 +343,111 @@ class TimeAgo
             date_default_timezone_set($this->previousTimezone);
             $this->previousTimezone = false;
         }
+    }
+
+    /**
+     * Checks if the given past is empty
+     * @param string $past the "past" to check
+     * @return bool true if empty, else false
+     */
+    private function isPastEmpty($past)
+    {
+        return $past === '' || is_null($past) || empty($past);
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan29Seconds($timeDifference)
+    {
+        return $timeDifference <= 29;
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan1Min29Seconds($timeDifference)
+    {
+        return $timeDifference >= 30 && $timeDifference <= 89;
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan44Min29Secs($timeDifference)
+    {
+        return $timeDifference >= 90 &&
+        $timeDifference <= (($this->secondsPerMinute * 44) + 29);
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan1Hour29Mins59Seconds($timeDifference)
+    {
+        return $timeDifference >= (($this->secondsPerMinute * 44) + 30)
+        &&
+        $timeDifference <= ($this->secondsPerHour + ($this->secondsPerMinute * 29) + 59);
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan23Hours59Mins29Seconds($timeDifference)
+    {
+        return $timeDifference >= (
+            $this->secondsPerHour +
+            ($this->secondsPerMinute * 30)
+        )
+        &&
+        $timeDifference <= (
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            29
+        );
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan47Hours59Mins29Seconds($timeDifference)
+    {
+        return $timeDifference >= (
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            30
+        )
+        &&
+        $timeDifference <= (
+            ($this->secondsPerHour * 47) +
+            ($this->secondsPerMinute * 59) +
+            29
+        );
+    }
+
+    /**
+     * @param $timeDifference
+     * @return bool
+     */
+    private function isLessThan29Days23Hours59Mins29Seconds($timeDifference)
+    {
+        return $timeDifference >= (
+            ($this->secondsPerHour * 47) +
+            ($this->secondsPerMinute * 59) +
+            30
+        )
+        &&
+        $timeDifference <= (
+            ($this->secondsPerDay * 29) +
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            29
+        );
     }
 }
