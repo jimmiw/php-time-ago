@@ -327,6 +327,9 @@ class TimeAgo
 
     /**
      * Loads the translations into the system.
+     * @param string $language the language iso to use
+     * @param null|string $alternate_path an alternative path to look for a translation in
+     * @throws Exception if a language file cannot be found or there are no translations
      */
     protected static function _loadTranslations($language, $alternate_path = null)
     {
@@ -341,23 +344,29 @@ class TimeAgo
             // loads the translation file
             include($path);
 
-            if (!isset($timeAgoStrings) && $alternate_path) {
-                include($alternate_path);
+            // no data found in the given path, try to load the alternative path
+            if (! isset($timeAgoStrings) && $alternate_path) {
+                // loads the alternative language file
+                $path = $alternate_path;
+                include($path);
+            }
+
+            // throws an exception, if the are no translations, in the currently loaded translation file
+            if (! isset($timeAgoStrings)) {
+                throw new Exception('No translations found in translation file at: ' . $path);
             }
 
             // storing the time strings in the current object
             self::$timeAgoStrings = $timeAgoStrings;
-
-            // loads the language files
-            if (self::$timeAgoStrings == null) {
-                error_log('Could not load language file for language ' . $language . '. Please ensure that the file exists in ' . __DIR__ . 'translations/' . $language . '.php');
-            }
         }
 
         // storing the language
         self::$language = $language;
     }
 
+    /**
+     * Changes the timezone
+     */
     protected function changeTimezone()
     {
         $this->previousTimezone = false;
@@ -367,6 +376,9 @@ class TimeAgo
         }
     }
 
+    /**
+     * Restores a previous timezone
+     */
     protected function restoreTimezone()
     {
         if ($this->previousTimezone) {
