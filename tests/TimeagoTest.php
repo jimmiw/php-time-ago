@@ -107,4 +107,14 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
     {
         new TimeAgo(null, 'asd');
     }
+
+    /**
+     * Tests loading translations, that exist :)
+     */
+    public function testLoadTranslations()
+    {
+        $timeAgo = new TimeAgo(null, 'da');
+        $timeAgo = new TimeAgo(null, 'en');
+        $timeAgo = new TimeAgo(null, 'de');
+    }
 }
