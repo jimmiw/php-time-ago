@@ -1,3 +1,7 @@
+# Add time ago functionality to your project
+
+[![Build Status](https://travis-ci.org/jimmiw/php-time-ago.svg?branch=master)](https://travis-ci.org/jimmiw/php-time-ago)
+
 # Getting started
 
 The package is availabe here on Github and on Packagist
