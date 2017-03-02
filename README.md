@@ -84,6 +84,7 @@ DateTime dependence thingy.
 Inspired by the comments at:
 
 http://dk.php.net/time
+
 http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
 
 You should really look in to the Carbon project, it looks very nice and gives the same functionality and a lot more.
