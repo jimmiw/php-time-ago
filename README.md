@@ -1,6 +1,9 @@
 # Add time ago functionality to your project
 
+[![Latest Stable Version](https://poser.pugx.org/jimmiw/php-time-ago/v/stable)](https://packagist.org/packages/jimmiw/php-time-ago)
+[![Total Downloads](https://poser.pugx.org/jimmiw/php-time-ago/downloads)](https://packagist.org/packages/jimmiw/php-time-ago)
 [![Build Status](https://travis-ci.org/jimmiw/php-time-ago.svg?branch=master)](https://travis-ci.org/jimmiw/php-time-ago)
+[![License](https://poser.pugx.org/jimmiw/php-time-ago/license)](https://packagist.org/packages/jimmiw/php-time-ago)
 
 # Getting started
 
