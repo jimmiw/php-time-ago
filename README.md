@@ -81,7 +81,9 @@ DateTime dependence thingy.
 
 # About
 
-Inspired by the comments at: "http://dk.php.net/time":http://dk.php.net/time and "http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695":http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
+Inspired by the comments at:
+http://dk.php.net/time":http://dk.php.net/time
+http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
 
 You should really look in to the Carbon project, it looks very nice and gives the same functionality and a lot more.
 
@@ -90,7 +92,7 @@ This class is here to give you the same functionality that DateTime::diff will g
 
 # Translations added
 
-*Version 0.4.x was the big version release.*
+*Version 0.4.x was the big translations release.*
 
 You can now translate the texts returned using the $timeAgo->inWords() or timeAgoInWords() methods.
 The translation is simply a language code string added to the end of the class init or timeAgoInWords() method.
