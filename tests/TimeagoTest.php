@@ -117,4 +117,16 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
         $timeAgo = new TimeAgo(null, 'en');
         $timeAgo = new TimeAgo(null, 'de');
     }
+
+    public function testDateDifference()
+    {
+        $past = new DateTime();
+        $now = new DateTime();
+        $past->sub(new DateInterval('PT1S'));
+
+        $timeAgo = new TimeAgo();
+        $difference = $timeAgo->dateDifference($past->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s'));
+        var_dump($difference);
+        $this->assertEquals(1, $difference['seconds']);
+    }
 }

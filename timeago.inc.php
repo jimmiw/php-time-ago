@@ -47,7 +47,7 @@ class TimeAgo
     public function __construct($timezone = null, $language = 'en')
     {
         // loads the translation files
-        self::_loadTranslations($language);
+        self::loadTranslations($language);
         // storing the current timezone
         $this->timezone = $timezone;
     }
@@ -77,50 +77,50 @@ class TimeAgo
         // rule 0
         // $past is null or empty or ''
         if ($this->isPastEmpty($past)) {
-            $timeAgo = $this->_translate('never');
+            $timeAgo = $this->translate('never');
         }
         // rule 1
         // less than 29secs
         else if ($this->isLessThan29Seconds($timeDifference)) {
-            $timeAgo = $this->_translate('lessThanAMinute');
+            $timeAgo = $this->translate('lessThanAMinute');
         }
         // rule 2
         // more than 29secs and less than 1min29secss
         else if ($this->isLessThan1Min29Seconds($timeDifference)) {
-            $timeAgo = $this->_translate('oneMinute');
+            $timeAgo = $this->translate('oneMinute');
         }
         // rule 3
         // between 1min30secs and 44mins29secs
         else if ($this->isLessThan44Min29Secs($timeDifference)) {
             $minutes = round($timeDifference / $this->secondsPerMinute);
-            $timeAgo = $this->_translate('lessThanOneHour', $minutes);
+            $timeAgo = $this->translate('lessThanOneHour', $minutes);
         }
         // rule 4
         // between 44mins30secs and 1hour29mins59secs
         else if ($this->isLessThan1Hour29Mins59Seconds($timeDifference)) {
-            $timeAgo = $this->_translate('aboutOneHour');
+            $timeAgo = $this->translate('aboutOneHour');
         }
         // rule 5
         // between 1hour29mins59secs and 23hours59mins29secs
         else if ($this->isLessThan23Hours59Mins29Seconds($timeDifference)) {
             $hours = round($timeDifference / $this->secondsPerHour);
-            $timeAgo = $this->_translate('hours', $hours);
+            $timeAgo = $this->translate('hours', $hours);
         }
         // rule 6
         // between 23hours59mins30secs and 47hours59mins29secs
         else if ($this->isLessThan47Hours59Mins29Seconds($timeDifference)) {
-            $timeAgo = $this->_translate('aboutOneDay');
+            $timeAgo = $this->translate('aboutOneDay');
         }
         // rule 7
         // between 47hours59mins30secs and 29days23hours59mins29secs
         else if ($this->isLessThan29Days23Hours59Mins29Seconds($timeDifference)) {
             $days = round($timeDifference / $this->secondsPerDay);
-            $timeAgo = $this->_translate('days', $days);
+            $timeAgo = $this->translate('days', $days);
         }
         // rule 8
         // between 29days23hours59mins30secs and 59days23hours59mins29secs
         else if ($this->isLessThan59Days23Hours59Mins29Secs($timeDifference)) {
-            $timeAgo = $this->_translate('aboutOneMonth');
+            $timeAgo = $this->translate('aboutOneMonth');
         }
         // rule 9
         // between 59days23hours59mins30secs and 1year (minus 1sec)
@@ -131,18 +131,18 @@ class TimeAgo
                 $months = 2;
             }
 
-            $timeAgo = $this->_translate('months', $months);
+            $timeAgo = $this->translate('months', $months);
         }
         // rule 10
         // between 1year and 2years (minus 1sec)
         else if ($this->isLessThan2Years($timeDifference)) {
-            $timeAgo = $this->_translate('aboutOneYear');
+            $timeAgo = $this->translate('aboutOneYear');
         }
         // rule 11
         // 2years or more
         else {
             $years = floor($timeDifference / $this->secondsPerYear);
-            $timeAgo = $this->_translate('years', $years);
+            $timeAgo = $this->translate('years', $years);
         }
 
         $this->restoreTimezone();
@@ -244,7 +244,7 @@ class TimeAgo
      * @param string $time the time to add to the translated text.
      * @return string the translated label text including the time.
      */
-    protected function _translate($label, $time = '')
+    protected function translate($label, $time = '')
     {
         // handles a usecase introduced in #18, where a new translation was added.
         // This would cause an array-out-of-bound exception, since the index does not
@@ -258,15 +258,24 @@ class TimeAgo
 
     /**
      * Loads the translations into the system.
+     * NOTE: Removed alternativePath in 0.6.0, instead, define that path using TIMEAGO_TRANSLATION_PATH
      * @param string $language the language iso to use
-     * @param null|string $alternate_path an alternative path to look for a translation in
      * @throws Exception if a language file cannot be found or there are no translations
      */
-    protected static function _loadTranslations($language, $alternate_path = null)
+    protected static function loadTranslations($language)
     {
         // no time strings loaded? load them and store it all in static variables
         if (self::$timeAgoStrings == null || self::$language != $language) {
-            $path = __DIR__ . '/translations/' . $language . '.php';
+            // default path to the translations
+            $basePath = __DIR__ . '/translations/';
+
+            // adding the possibility for an alternate translations path
+            if (defined('TIMEAGO_TRANSLATION_PATH')) {
+                $basePath = TIMEAGO_TRANSLATION_PATH;
+            }
+
+            // setting the translation path
+            $path = $basePath . $language . '.php';
 
             if (! file_exists($path)) {
                 throw new Exception("No translation file found at: " . $path);
@@ -274,13 +283,6 @@ class TimeAgo
 
             // loads the translation file
             include($path);
-
-            // no data found in the given path, try to load the alternative path
-            if (! isset($timeAgoStrings) && $alternate_path) {
-                // loads the alternative language file
-                $path = $alternate_path;
-                include($path);
-            }
 
             // throws an exception, if the are no translations, in the currently loaded translation file
             if (! isset($timeAgoStrings)) {
