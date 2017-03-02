@@ -119,35 +119,12 @@ class TimeAgo
         }
         // rule 8
         // between 29days23hours59mins30secs and 59days23hours59mins29secs
-        else if (
-            $timeDifference >= (
-                ($this->secondsPerDay * 29) +
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                30
-            )
-            &&
-            $timeDifference <= (
-                ($this->secondsPerDay * 59) +
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                29
-            )
-        ) {
+        else if ($this->isLessThan59Days23Hours59Mins29Secs($timeDifference)) {
             $timeAgo = $this->_translate('aboutOneMonth');
         }
         // rule 9
         // between 59days23hours59mins30secs and 1year (minus 1sec)
-        else if (
-            $timeDifference >= (
-                ($this->secondsPerDay * 59) +
-                ($this->secondsPerHour * 23) +
-                ($this->secondsPerMinute * 59) +
-                30
-            )
-            &&
-            $timeDifference < $this->secondsPerYear
-        ) {
+        else if ($this->isLessThan1Year($timeDifference)) {
             $months = round($timeDifference / $this->secondsPerMonth);
             // if months is 1, then set it to 2, because we are "past" 1 month
             if ($months == 1) {
@@ -158,11 +135,7 @@ class TimeAgo
         }
         // rule 10
         // between 1year and 2years (minus 1sec)
-        else if (
-            $timeDifference >= $this->secondsPerYear
-            &&
-            $timeDifference < ($this->secondsPerYear * 2)
-        ) {
+        else if ($this->isLessThan2Years($timeDifference)) {
             $timeAgo = $this->_translate('aboutOneYear');
         }
         // rule 11
@@ -356,7 +329,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan29Seconds($timeDifference)
@@ -365,7 +339,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 1min 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan1Min29Seconds($timeDifference)
@@ -374,7 +349,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 44mins 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan44Min29Secs($timeDifference)
@@ -384,7 +360,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 1hour 29mins 59seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan1Hour29Mins59Seconds($timeDifference)
@@ -395,7 +372,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 23hours 59mins 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan23Hours59Mins29Seconds($timeDifference)
@@ -413,7 +391,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 27hours 59mins 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan47Hours59Mins29Seconds($timeDifference)
@@ -432,7 +411,8 @@ class TimeAgo
     }
 
     /**
-     * @param $timeDifference
+     * Checks if the time difference is less than 29days 23hours 59mins 29seconds
+     * @param int $timeDifference the time difference in seconds
      * @return bool
      */
     private function isLessThan29Days23Hours59Mins29Seconds($timeDifference)
@@ -449,5 +429,56 @@ class TimeAgo
             ($this->secondsPerMinute * 59) +
             29
         );
+    }
+
+    /**
+     * Checks if the time difference is less than 59days 23hours 59mins 29seconds
+     * @param int $timeDifference the time difference in seconds
+     * @return bool
+     */
+    private function isLessThan59Days23Hours59Mins29Secs($timeDifference)
+    {
+        return $timeDifference >= (
+            ($this->secondsPerDay * 29) +
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            30
+        )
+        &&
+        $timeDifference <= (
+            ($this->secondsPerDay * 59) +
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            29
+        );
+    }
+
+    /**
+     * Checks if the time difference is less than 1 year
+     * @param int $timeDifference the time difference in seconds
+     * @return bool
+     */
+    private function isLessThan1Year($timeDifference)
+    {
+        return $timeDifference >= (
+            ($this->secondsPerDay * 59) +
+            ($this->secondsPerHour * 23) +
+            ($this->secondsPerMinute * 59) +
+            30
+        )
+        &&
+        $timeDifference < $this->secondsPerYear;
+    }
+
+    /**
+     * Checks if the time difference is less than 2 years
+     * @param int $timeDifference the time difference in seconds
+     * @return bool
+     */
+    private function isLessThan2Years($timeDifference)
+    {
+        return $timeDifference >= $this->secondsPerYear
+        &&
+        $timeDifference < ($this->secondsPerYear * 2);
     }
 }
