@@ -1,15 +1,9 @@
 <?php
 
-// To allow overriding this function as will, if someone wants to use a derived class of `TimeAgo`
-if (!function_exists('timeAgoInWords')) {
-    function timeAgoInWords($timestring, $timezone = null, $language = 'en')
-    {
-        $timeAgo = new TimeAgo($timezone, $language);
+namespace Westsworld;
 
-        return $timeAgo->inWords($timestring, "now");
-    }
-}
-
+// just making life easier :)
+use Exception;
 
 /**
  * This class can help you find out just how much time has passed between
@@ -267,7 +261,7 @@ class TimeAgo
         // no time strings loaded? load them and store it all in static variables
         if (self::$timeAgoStrings == null || self::$language != $language) {
             // default path to the translations
-            $basePath = __DIR__ . '/translations/';
+            $basePath = __DIR__ . '/../../translations/';
 
             // adding the possibility for an alternate translations path
             if (defined('TIMEAGO_TRANSLATION_PATH')) {

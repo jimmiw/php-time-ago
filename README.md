@@ -15,15 +15,11 @@ composer require jimmiw/php-time-ago
 
 ## Using the component
 
-There are now two methods you can call (well, 3, but two important ones!)
+There is now only one way to get the time ago in words
 
 ```
-$timeAgo = new TimeAgo();
+$timeAgo = new Westsworld\TimeAgo();
 echo $timeAgo->inWords("2010/1/10 23:05:00");
- 
-// OR
- 
-echo timeAgoInWords("2010/1/10 23:05:00");
 ```
 
 Both methods gives the same answer, the "timeAgoInWords()" function is just a
@@ -36,7 +32,7 @@ I've implemented a nice little function that does just that for you. Simply do t
 following:
 
 ```
-$timeAgo = new TimeAgo();
+$timeAgo = new Westsworld\TimeAgo();
 $dateDifferenceArray =  $timeAgo->dateDifference("2017-03-02 07:53:00", "2017-03-02 07:53:01");
 ```
 
@@ -100,15 +96,22 @@ Examples using the Danish translations:
 ```
 $timeZone = null; // just use the system timezone
  
-$timeAgo = new TimeAgo($timeZone, 'da'); // default language is en (english)
+$timeAgo = new Westsworld\TimeAgo($timeZone, 'da'); // default language is en (english)
 echo $timeAgo->inWords("2010/1/10 23:05:00");
- 
-// OR
- 
-echo timeAgoInWords("2010/1/10 23:05:00", $timeZone, 'da');
 ```
 
 ## Changelog
+
+### 2.0.0
+
+Now using namespaces to handle the source.
+
+* Added Westsworld namespace to the TimeAgo project.
+* Removed the function "timeAgoInWords", since i really didn't like having it around.
+* Removed the very deprecated WWDateTime class.
+* Fixed unittests after namespace introduction.
+* Updated composer.lock
+* Updated .travis.yml
 
 ### 1.0.0
 

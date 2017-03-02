@@ -19,7 +19,9 @@
         "phpunit/dbunit": "2.0.*"
     },
     "autoload": {
-        "files": ["timeago.inc.php"]
+		"psr-0": {
+			"Westsworld": "src/"
+		}
     },
     "config": {
         "bin-dir": "vendor/bin/"
