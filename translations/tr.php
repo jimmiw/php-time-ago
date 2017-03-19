@@ -11,5 +11,6 @@ $timeAgoStrings = array(
   'lessThanOneHour' => "%s dakika önce",
   'months' => "%s ay önce",
   'oneMinute' => "1 dakika önce",
-  'years' => "%s yıldan fazla..."
+  'years' => "%s yıldan fazla...",
+  'never' => 'Asla'
 );
