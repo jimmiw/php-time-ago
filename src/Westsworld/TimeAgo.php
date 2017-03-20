@@ -259,7 +259,7 @@ class TimeAgo
     protected static function loadTranslations($language)
     {
         // no time strings loaded? load them and store it all in static variables
-        if (self::$timeAgoStrings == null || self::$language != $language) {
+        if (self::$timeAgoStrings === null || self::$language !== $language) {
             // default path to the translations
             $basePath = __DIR__ . '/../../translations/';
 
