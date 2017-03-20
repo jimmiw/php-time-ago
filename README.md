@@ -113,6 +113,11 @@ echo $timeAgo->inWords("2010/1/10 23:05:00");
 
 ## Changelog
 
+### 2.0.1
+
+* Fixed a file encoding problem on the korean translation
+* Added a never translate on the turkish translation (thanks to @esrefesen)
+
 ### 2.0.0
 
 Now using namespaces to handle the source.
