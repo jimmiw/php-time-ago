@@ -62,9 +62,6 @@ class TimeAgo
         // finds the current datetime
         $now = strtotime($now);
 
-        // creates the "time ago" string. This always starts with an "about..."
-        $timeAgo = "";
-
         // finds the time difference
         $timeDifference = $now - $past;
 
