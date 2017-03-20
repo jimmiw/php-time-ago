@@ -113,6 +113,12 @@ echo $timeAgo->inWords("2010/1/10 23:05:00");
 
 ## Changelog
 
+### 2.0.2
+
+* Removed user specific files from .gitignore
+* Using strict comparison
+* Added a method for rounding the number of months to use
+
 ### 2.0.1
 
 * Fixed a file encoding problem on the korean translation
