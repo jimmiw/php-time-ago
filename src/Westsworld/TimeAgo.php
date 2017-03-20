@@ -116,11 +116,7 @@ class TimeAgo
         // rule 9
         // between 59days23hours59mins30secs and 1year (minus 1sec)
         else if ($this->isLessThan1Year($timeDifference)) {
-            $months = round($timeDifference / $this->secondsPerMonth);
-            // if months is 1, then set it to 2, because we are "past" 1 month
-            if ($months == 1) {
-                $months = 2;
-            }
+            $months = $this->roundMonthsAboveOneMonth($timeDifference);
 
             $timeAgo = $this->translate('months', $months);
         }
@@ -473,5 +469,21 @@ class TimeAgo
         return $timeDifference >= $this->secondsPerYear
         &&
         $timeDifference < ($this->secondsPerYear * 2);
+    }
+
+    /**
+     * Rounds of the months, and checks if months is 1, then it's increased to 2, since this should be taken
+     * from a different rule
+     * @param int $timeDifference the time difference in seconds
+     * @return int the number of months the difference is un
+     */
+    private function roundMonthsAboveOneMonth($timeDifference)
+    {
+        $months = round($timeDifference / $this->secondsPerMonth);
+        // if months is 1, then set it to 2, because we are "past" 1 month
+        if ($months == 1) {
+            $months = 2;
+        }
+        return $months;
     }
 }
