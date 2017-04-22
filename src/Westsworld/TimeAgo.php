@@ -64,73 +64,7 @@ class TimeAgo
 
         // finds the time difference
         $timeDifference = $now - $past;
-
-        // rule 0
-        // $past is null or empty or ''
-        if ($this->isPastEmpty($past)) {
-            $timeAgo = $this->translate('never');
-        }
-        // rule 1
-        // less than 29secs
-        else if ($this->isLessThan29Seconds($timeDifference)) {
-            $timeAgo = $this->translate('lessThanAMinute');
-        }
-        // rule 2
-        // more than 29secs and less than 1min29secss
-        else if ($this->isLessThan1Min29Seconds($timeDifference)) {
-            $timeAgo = $this->translate('oneMinute');
-        }
-        // rule 3
-        // between 1min30secs and 44mins29secs
-        else if ($this->isLessThan44Min29Secs($timeDifference)) {
-            $minutes = round($timeDifference / $this->secondsPerMinute);
-            $timeAgo = $this->translate('lessThanOneHour', $minutes);
-        }
-        // rule 4
-        // between 44mins30secs and 1hour29mins59secs
-        else if ($this->isLessThan1Hour29Mins59Seconds($timeDifference)) {
-            $timeAgo = $this->translate('aboutOneHour');
-        }
-        // rule 5
-        // between 1hour29mins59secs and 23hours59mins29secs
-        else if ($this->isLessThan23Hours59Mins29Seconds($timeDifference)) {
-            $hours = round($timeDifference / $this->secondsPerHour);
-            $timeAgo = $this->translate('hours', $hours);
-        }
-        // rule 6
-        // between 23hours59mins30secs and 47hours59mins29secs
-        else if ($this->isLessThan47Hours59Mins29Seconds($timeDifference)) {
-            $timeAgo = $this->translate('aboutOneDay');
-        }
-        // rule 7
-        // between 47hours59mins30secs and 29days23hours59mins29secs
-        else if ($this->isLessThan29Days23Hours59Mins29Seconds($timeDifference)) {
-            $days = round($timeDifference / $this->secondsPerDay);
-            $timeAgo = $this->translate('days', $days);
-        }
-        // rule 8
-        // between 29days23hours59mins30secs and 59days23hours59mins29secs
-        else if ($this->isLessThan59Days23Hours59Mins29Secs($timeDifference)) {
-            $timeAgo = $this->translate('aboutOneMonth');
-        }
-        // rule 9
-        // between 59days23hours59mins30secs and 1year (minus 1sec)
-        else if ($this->isLessThan1Year($timeDifference)) {
-            $months = $this->roundMonthsAboveOneMonth($timeDifference);
-
-            $timeAgo = $this->translate('months', $months);
-        }
-        // rule 10
-        // between 1year and 2years (minus 1sec)
-        else if ($this->isLessThan2Years($timeDifference)) {
-            $timeAgo = $this->translate('aboutOneYear');
-        }
-        // rule 11
-        // 2years or more
-        else {
-            $years = floor($timeDifference / $this->secondsPerYear);
-            $timeAgo = $this->translate('years', $years);
-        }
+        $timeAgo = $this->getTimeDifference($past, $timeDifference);
 
         $this->restoreTimezone();
 
@@ -305,6 +239,79 @@ class TimeAgo
             date_default_timezone_set($this->previousTimezone);
             $this->previousTimezone = false;
         }
+    }
+
+    /**
+     * Applies rules to find the time difference as a string
+     * @param int|false $past
+     * @param $timeDifference
+     * @return string
+     */
+    private function getTimeDifference($past, $timeDifference)
+    {
+        // rule 0
+        // $past is null or empty or ''
+        if ($this->isPastEmpty($past)) {
+            return $this->translate('never');
+        }
+        // rule 1
+        // less than 29secs
+        if ($this->isLessThan29Seconds($timeDifference)) {
+            return $this->translate('lessThanAMinute');
+        }
+        // rule 2
+        // more than 29secs and less than 1min29secss
+        if ($this->isLessThan1Min29Seconds($timeDifference)) {
+            return $this->translate('oneMinute');
+        }
+        // rule 3
+        // between 1min30secs and 44mins29secs
+        if ($this->isLessThan44Min29Secs($timeDifference)) {
+            $minutes = round($timeDifference / $this->secondsPerMinute);
+            return $this->translate('lessThanOneHour', $minutes);
+        }
+        // rule 4
+        // between 44mins30secs and 1hour29mins59secs
+        if ($this->isLessThan1Hour29Mins59Seconds($timeDifference)) {
+            return $this->translate('aboutOneHour');
+        }
+        // rule 5
+        // between 1hour29mins59secs and 23hours59mins29secs
+        if ($this->isLessThan23Hours59Mins29Seconds($timeDifference)) {
+            $hours = round($timeDifference / $this->secondsPerHour);
+            return $this->translate('hours', $hours);
+        }
+        // rule 6
+        // between 23hours59mins30secs and 47hours59mins29secs
+        if ($this->isLessThan47Hours59Mins29Seconds($timeDifference)) {
+            return $this->translate('aboutOneDay');
+        }
+        // rule 7
+        // between 47hours59mins30secs and 29days23hours59mins29secs
+        if ($this->isLessThan29Days23Hours59Mins29Seconds($timeDifference)) {
+            $days = round($timeDifference / $this->secondsPerDay);
+            return $this->translate('days', $days);
+        }
+        // rule 8
+        // between 29days23hours59mins30secs and 59days23hours59mins29secs
+        if ($this->isLessThan59Days23Hours59Mins29Secs($timeDifference)) {
+            return $this->translate('aboutOneMonth');
+        }
+        // rule 9
+        // between 59days23hours59mins30secs and 1year (minus 1sec)
+        if ($this->isLessThan1Year($timeDifference)) {
+            $months = $this->roundMonthsAboveOneMonth($timeDifference);
+            return $this->translate('months', $months);
+        }
+        // rule 10
+        // between 1year and 2years (minus 1sec)
+        if ($this->isLessThan2Years($timeDifference)) {
+            return $this->translate('aboutOneYear');
+        }
+        // rule 11
+        // 2years or more
+        $years = floor($timeDifference / $this->secondsPerYear);
+        return $this->translate('years', $years);
     }
 
     /**
