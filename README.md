@@ -4,6 +4,9 @@
 [![Total Downloads](https://poser.pugx.org/jimmiw/php-time-ago/downloads)](https://packagist.org/packages/jimmiw/php-time-ago)
 [![Build Status](https://travis-ci.org/jimmiw/php-time-ago.svg?branch=master)](https://travis-ci.org/jimmiw/php-time-ago)
 [![License](https://poser.pugx.org/jimmiw/php-time-ago/license)](https://packagist.org/packages/jimmiw/php-time-ago)
+[![OpenCollective](https://opencollective.com/php-time-ago/backers/badge.svg)](#backers) 
+[![OpenCollective](https://opencollective.com/php-time-ago/sponsors/badge.svg)](#sponsors)
+
 
 # Getting started
 
@@ -191,6 +194,76 @@ Just if you wanted to try out the old "time ago" class, I've kept it in the proj
 It will eventually be deleted, but hey, go have fun with it. Perhaps even extend it etc.
 Bear in mind though, that the new DateTime::diff in PHP version 5.3.0 will eventually
 replace it completely. (PHP 5.3.0 DateTime::diff link: http://www.php.net/manual/en/datetime.diff.php)
+
+# Backers
+
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/php-time-ago#backer)]
+
+<a href="https://opencollective.com/php-time-ago/backer/0/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/0/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/1/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/2/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/2/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/3/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/3/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/4/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/4/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/5/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/5/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/6/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/6/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/7/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/7/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/8/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/8/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/9/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/9/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/10/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/10/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/11/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/11/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/12/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/12/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/13/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/13/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/14/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/14/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/15/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/15/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/16/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/16/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/17/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/17/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/18/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/18/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/19/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/19/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/20/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/20/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/21/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/21/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/22/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/22/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/23/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/23/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/24/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/24/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/25/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/25/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/26/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/26/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/27/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/27/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/28/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/28/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/backer/29/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/29/avatar.svg"></a>
+
+# Sponsors
+
+Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/php-time-ago#sponsor)]
+
+<a href="https://opencollective.com/php-time-ago/sponsor/0/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/1/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/2/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/3/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/4/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/5/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/6/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/7/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/8/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/9/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/10/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/10/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/11/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/11/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/12/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/12/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/13/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/13/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/14/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/14/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/15/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/15/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/16/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/16/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/17/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/17/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/18/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/18/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/19/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/19/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/20/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/20/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/21/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/21/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/22/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/22/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/23/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/23/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/24/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/24/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/25/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/25/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/26/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/26/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/27/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/27/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/28/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/28/avatar.svg"></a>
+<a href="https://opencollective.com/php-time-ago/sponsor/29/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/29/avatar.svg"></a>
 
 # MIT License
 
