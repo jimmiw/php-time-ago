@@ -130,4 +130,21 @@ class TimeagoTest extends PHPUnit_Framework_TestCase
         $difference = $timeAgo->dateDifference($past->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s'));
         $this->assertEquals(1, $difference['seconds']);
     }
+
+    public function testDateTimeZoneInConstructorThrowsWarning()
+    {
+        $timeAgo = new TimeAgo(new DateTimeZone('UTC'), 'en');
+
+        $this->expectException(PHPUnit_Framework_Error_Warning::class);
+        $this->expectExceptionMessage('expects parameter 1 to be string, object given');
+
+        $this->assertEquals('1 minute ago', $timeAgo->inWords("-30 second"));
+    }
+
+    public function testTimeZoneStringInConstructor()
+    {
+        $timeAgo = new TimeAgo('UTC', 'en');
+
+        $this->assertEquals('1 minute ago', $timeAgo->inWords("-30 second"));
+    }
 }

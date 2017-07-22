@@ -35,7 +35,7 @@ class TimeAgo
 
     /**
      * TimeAgo constructor.
-     * @param null|DateTimeZone $timezone the timezone to use (uses system if none is given)
+     * @param null|string $timezone the timezone to use (uses system if none is given)
      * @param string $language the language to use (defaults to 'en' for english)
      */
     public function __construct($timezone = null, $language = 'en')
