@@ -7,10 +7,10 @@ $timeAgoStrings = array(
   'aboutOneYear' => "1 năm trước",
   'days' => "%s ngày trước",
   'hours' => "%s giờ trước",
-  'lessThanAMinute' => "gần 1 phút trước",
+  'lessThanAMinute' => "Gần 1 phút trước",
   'lessThanOneHour' => "%s phút trước",
   'months' => "%s tháng trước",
   'oneMinute' => "1 phút trước",
-  'years' => "hơn %s năm trước",
+  'years' => "%s năm trước",
   'never' => 'Không xác định'
 );
