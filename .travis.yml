@@ -7,7 +7,7 @@ php:
 
 before_script:
   - composer self-update
-  - composer install --prefer-source --no-interaction
+  - composer install --prefer-dist --no-interaction
 
 script:
   - ./vendor/bin/phpunit --no-coverage
