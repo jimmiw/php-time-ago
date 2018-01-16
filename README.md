@@ -116,6 +116,11 @@ echo $timeAgo->inWords("2010/1/10 23:05:00");
 
 ## Changelog
 
+### 2.0.3
+* Added Swedish translation, thanks to @khromov
+* Added Gregorian translation, thanks to @nikopeikrishvili
+* Added Vietnamese translation, thanks to @baivong
+
 ### 2.0.2
 
 * Removed user specific files from .gitignore
