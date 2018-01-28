@@ -30,8 +30,9 @@ class TimeAgo
     private $previousTimezone;
 
     // translations variables
-    private static $language;
-    private static $timeAgoStrings = null;
+    private $language;
+    private $timeAgoStrings = null;
+    private $pluralFormDetection = null;
 
     /**
      * TimeAgo constructor.
@@ -41,7 +42,7 @@ class TimeAgo
     public function __construct($timezone = null, $language = 'en')
     {
         // loads the translation files
-        self::loadTranslations($language);
+        $this->loadTranslations($language);
         // storing the current timezone
         $this->timezone = $timezone;
     }
@@ -170,11 +171,41 @@ class TimeAgo
         // handles a usecase introduced in #18, where a new translation was added.
         // This would cause an array-out-of-bound exception, since the index does not
         // exist in most translations.
-        if (!isset(self::$timeAgoStrings[$label])) {
+        if (!isset($this->timeAgoStrings[$label])) {
             return '';
         }
 
-        return sprintf(self::$timeAgoStrings[$label], $time);
+        if (is_array($this->timeAgoStrings[$label])) {
+            $format = $this->pluralForm($time, $this->timeAgoStrings[$label]);
+        } else {
+            $format = $this->timeAgoStrings[$label];
+        }
+
+        return sprintf($format, $time);
+    }
+
+    protected function pluralForm($num, $collection)
+    {
+        if (is_callable($this->pluralFormDetection)) {
+            return call_user_func($this->pluralFormDetection, $num, $collection);
+        }
+
+        // else lets use common algorithm
+        $num = (int) $num;
+
+        if ($num > 20) {
+            $num %= 10;
+        }
+
+        if ($num == 1) {
+            $form = $collection[0];
+        } elseif ($num > 1 && $num < 5) {
+            $form = $collection[1];
+        } else {
+           $form = isset($collection[2]) ? $collection[2] : $collection[1];
+        }
+
+        return $form;
     }
 
     /**
@@ -183,10 +214,10 @@ class TimeAgo
      * @param string $language the language iso to use
      * @throws Exception if a language file cannot be found or there are no translations
      */
-    protected static function loadTranslations($language)
+    protected function loadTranslations($language)
     {
-        // no time strings loaded? load them and store it all in static variables
-        if (self::$timeAgoStrings === null || self::$language !== $language) {
+        // no time strings loaded? load them and store it all in variables
+        if ($this->timeAgoStrings === null || $this->language !== $language) {
             // default path to the translations
             $basePath = __DIR__ . '/../../translations/';
 
@@ -211,11 +242,18 @@ class TimeAgo
             }
 
             // storing the time strings in the current object
-            self::$timeAgoStrings = $timeAgoStrings;
+            $this->timeAgoStrings = $timeAgoStrings;
+
+            // If there is an common realization of plural form detection - store it.
+            if (isset($pluralFormDetection) && is_callable($pluralFormDetection)) {
+                $this->pluralFormDetection = $pluralFormDetection;
+            } else {
+                $this->pluralFormDetection = null;
+            }
         }
 
         // storing the language
-        self::$language = $language;
+        $this->language = $language;
     }
 
     /**
