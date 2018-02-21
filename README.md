@@ -116,6 +116,9 @@ echo $timeAgo->inWords("2010/1/10 23:05:00");
 
 ## Changelog
 
+### 2.0.4
+* Added Catalan translation, thanks to @Ajenbo and @esrefesen
+
 ### 2.0.3
 * Added Swedish translation, thanks to @khromov
 * Added Gregorian translation, thanks to @nikopeikrishvili
