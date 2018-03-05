@@ -3,7 +3,7 @@
 $timeAgoStrings = array(
   'aboutOneDay' => "pred 1 dňom",
   'aboutOneHour' => "pred 1 hodinou",
-  'aboutOneMonth' => "před 1 měsícem",
+  'aboutOneMonth' => "pred 1 mesiacom",
   'aboutOneYear' => "pred 1 rokom",
   'days' => "pred %s dňami",
   'hours' => "pred %s hodinami",
