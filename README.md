@@ -4,7 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/jimmiw/php-time-ago/downloads)](https://packagist.org/packages/jimmiw/php-time-ago)
 [![Build Status](https://travis-ci.org/jimmiw/php-time-ago.svg?branch=master)](https://travis-ci.org/jimmiw/php-time-ago)
 [![License](https://poser.pugx.org/jimmiw/php-time-ago/license)](https://packagist.org/packages/jimmiw/php-time-ago)
-[![OpenCollective](https://opencollective.com/php-time-ago/backers/badge.svg)](#backers) 
+[![OpenCollective](https://opencollective.com/php-time-ago/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/php-time-ago/sponsors/badge.svg)](#sponsors)
 
 
@@ -38,7 +38,7 @@ convenience wrapper for you.
 ## Do you want the actual years, months, days, hours, minutes, seconds difference?
 
 Good news for you then!
-I've implemented a nice little function that does just that for you. Simply do the 
+I've implemented a nice little function that does just that for you. Simply do the
 following:
 
 ```
@@ -79,7 +79,7 @@ This will return an array with the following data:
 # Changes since last version
 
 Lots have changed since the last version. The WWDateTime class is no longer supported.
-I have implemented a new class which takes a time string as parameter (and a 
+I have implemented a new class which takes a time string as parameter (and a
 timezone if needed), and calculates the time between them.
 
 By request from "lsolesen" (a guy from here on github) I did removed the whole
@@ -109,12 +109,18 @@ Examples using the Danish translations:
 
 ```
 $timeZone = null; // just use the system timezone
- 
+
 $timeAgo = new Westsworld\TimeAgo($timeZone, 'da'); // default language is en (english)
 echo $timeAgo->inWords("2010/1/10 23:05:00");
 ```
 
 ## Changelog
+
+### 2.0.5
+* Added Bulgarian translation, thanks to @ironsmile
+* Added Latvian translation, thanks to @intarstudents
+* Updated French translation, thanks to a team of two? @ArthurHoaro and @blaugueux
+* Updated Portuguese translations, thanks to @ivesbrito
 
 ### 2.0.4
 * Added Catalan translation, thanks to @Ajenbo and @esrefesen
