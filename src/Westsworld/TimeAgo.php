@@ -4,6 +4,7 @@ namespace Westsworld;
 
 // just making life easier :)
 use Exception;
+use TimeAgo\Providers\Provider;
 
 /**
  * This class can help you find out just how much time has passed between
@@ -44,6 +45,33 @@ class TimeAgo
         self::loadTranslations($language);
         // storing the current timezone
         $this->timezone = $timezone;
+    }
+
+    public static function create(Provider $provider): TimeAgo
+    {
+        $instance = new TimeAgo();
+        $instance->setProvider($provider);
+        return $instance;
+    }
+
+    /**
+     * Fetches the provider to use. TimeAgo\Provider\Default is used if none
+     * is set
+     * @return Provider
+     */
+    private function getProvider(): Provider
+    {
+        if (! empty($this->provider)) {
+            return $this->provider;
+        }
+
+        // no provider given, initialize the default one
+        $this->provider = new TimeAgo\Providers\Default(
+            $this->language,
+            $this->timezone
+        );
+
+        return $this->provider;
     }
 
     /**
