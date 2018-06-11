@@ -1,15 +1,15 @@
 <?php
 
 $timeAgoStrings = array(
-  'aboutOneDay' => "depuis un jour",
-  'aboutOneHour' => "depuis à peu près une heure",
-  'aboutOneMonth' => "depuis à peu près un mois",
-  'aboutOneYear' => "depuis à peu près une année",
-  'days' => "depuis %s jours",
-  'hours' => "depuis %s heures",
-  'lessThanAMinute' => "depuis moins d'une minute",
-  'lessThanOneHour' => "depuis %s minutes",
-  'months' => "depuis %s mois",
-  'oneMinute' => "depuis une minute",
-  'years' => "depuis plus de %s années"
+  'aboutOneDay' => "il y a un jour",
+  'aboutOneHour' => "il y a une heure",
+  'aboutOneMonth' => "il y a un mois",
+  'aboutOneYear' => "il y a un an",
+  'days' => "il y a %s jours",
+  'hours' => "il y a %s heures",
+  'lessThanAMinute' => "il y a moins d'une minute",
+  'lessThanOneHour' => "il y a %s minutes",
+  'months' => "il y a %s mois",
+  'oneMinute' => "il y a une minute",
+  'years' => "il y a plus de %s ans"
 );
