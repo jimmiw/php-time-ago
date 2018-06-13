@@ -66,10 +66,10 @@ class TimeAgo
         }
 
         // no provider given, initialize the default one
-        $this->provider = new TimeAgo\Providers\Default(
-            $this->language,
-            $this->timezone
-        );
+        // $this->provider = new TimeAgo\Providers\DefaultProvider(
+        //     $this->language,
+        //     $this->timezone
+        // );
 
         return $this->provider;
     }
