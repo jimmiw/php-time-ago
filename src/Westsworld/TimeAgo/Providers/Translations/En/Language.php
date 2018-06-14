@@ -1,6 +1,6 @@
 <?php
 
-namespace Westsworld\TimeAgo\Translations\en;
+namespace Westsworld\TimeAgo\Translations\En;
 
 /**
  * Danish translations
