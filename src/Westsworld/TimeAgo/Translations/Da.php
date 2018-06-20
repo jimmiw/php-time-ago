@@ -1,11 +1,13 @@
 <?php
 
-namespace Westsworld\TimeAgo\Translations\Da;
+namespace Westsworld\TimeAgo\Translations;
+
+use \Westsworld\TimeAgo\Language;
 
 /**
  * Danish translations
  */
-class Language extends Westsworld\TimeAgo\Translations\Language
+class Da extends Language
 {
     public function __construct()
     {

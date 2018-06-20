@@ -1,6 +1,6 @@
 <?php
 
-namespace Westsworld\TimeAgo\Translations;
+namespace Westsworld\TimeAgo;
 
 use \DateTime;
 
@@ -50,17 +50,10 @@ abstract class Language
      */
     public function inWords(DateTime $past, DateTime $now = null)
     {
-        // handles cases where $now is null
-        if (null === $now) {
-            $now = new DateTime('now', new DateTimeZone('GMT'));
-        }
+        $now = \Westsworld\TimeAgo\TimeAgo::getNow($past, $now);
 
         // finds the time difference as a string
-        $timeAgo = $this->getTimeDifference($past, $past->diff($now));
-
-        $this->restoreTimezone();
-
-        return $timeAgo;
+        return $this->getTimeDifference($past, $past->diff($now));
     }
 
     /**
@@ -153,10 +146,10 @@ abstract class Language
      * @param DateTime $past the "past" to check
      * @return bool true if empty, else false
      */
-    private function isPastEmpty($past)
-    {
-        return null === $past || is_null($past) || empty($past);
-    }
+    // private function isPastEmpty($past)
+    // {
+    //     return null === $past || is_null($past) || empty($past);
+    // }
 
     /**
      * Checks if the time difference is less than 29seconds
@@ -327,7 +320,7 @@ abstract class Language
         // handles a usecase introduced in #18, where a new translation was added.
         // This would cause an array-out-of-bound exception, since the index does not
         // exist in most translations.
-        if ($this->hasTranslation($label)) {
+        if (! $this->hasTranslation($label)) {
             return '';
         }
 

@@ -1,13 +1,16 @@
 <?php
 
+namespace Westsworld\TimeAgo\Tests;
+
 use Westsworld\TimeAgo;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing timeago dates
  * @author jimmiw
  * @since 2016-03-11
  */
-class TimeagoTest extends PHPUnit_Framework_TestCase
+class TimeagoTest extends TestCase
 {
     public function testIsAlive()
     {

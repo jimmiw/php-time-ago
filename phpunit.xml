@@ -2,7 +2,6 @@
 <phpunit
     colors="true"
     forceCoversAnnotation="false"
-    codecoverage="true"
     bootstrap="vendor/autoload.php">
 
     <testsuite name="php-time-ago">
@@ -20,8 +19,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="./report" charset="UTF-8" yui="true"
-             highlight="true" lowUpperBound="50" highLowerBound="80" />
-        <log type="testdox" target="./report/testdox.html" />
+        <log type="coverage-html" target="./report" lowUpperBound="50" highLowerBound="80" />
+        <log type="testdox-html" target="./report/testdox.html" />
     </logging>
 </phpunit>
