@@ -4,6 +4,8 @@ namespace Westsworld\TimeAgo\Tests;
 
 use Westsworld\TimeAgo;
 use PHPUnit\Framework\TestCase;
+use DateTime;
+use DateInterval;
 
 /**
  * Testing timeago dates
@@ -31,16 +33,16 @@ class TimeagoTest extends TestCase
         $timeAgo = new TimeAgo();
 
         // testing "less than a minute"
-        $this->assertEquals('less than a minute ago', $timeAgo->inWords("now"));
-        $this->assertEquals('less than a minute ago', $timeAgo->inWords("-1 second"));
-        $this->assertEquals('less than a minute ago', $timeAgo->inWords("-29 second"));
-        $this->assertNotEquals('less than a minute ago', $timeAgo->inWords("-30 second"));
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords(new DateTime()));
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT1S'))));
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT29S'))));
+        $this->assertNotEquals('less than a minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT30S'))));
 
         // testing "1 minute"
-        $this->assertEquals('1 minute ago', $timeAgo->inWords("-30 second"));
-        $this->assertEquals('1 minute ago', $timeAgo->inWords("-60 second"));
-        $this->assertEquals('1 minute ago', $timeAgo->inWords("-89 second"));
-        $this->assertNotEquals('1 minute ago', $timeAgo->inWords("-90 second"));
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT30S'))));
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT60S'))));
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT89S'))));
+        $this->assertNotEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT90S'))));
 
         // testing 2..44 minutes
         $this->assertContains('minutes ago', $timeAgo->inWords("-2 minute"));
@@ -130,7 +132,7 @@ class TimeagoTest extends TestCase
         $past->sub(new DateInterval('PT1S'));
 
         $timeAgo = new TimeAgo();
-        $difference = $timeAgo->dateDifference($past->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s'));
+        $difference = $timeAgo->dateDifference($past, $now);
         $this->assertEquals(1, $difference['seconds']);
     }
 }

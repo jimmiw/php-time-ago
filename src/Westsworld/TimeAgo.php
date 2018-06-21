@@ -6,8 +6,8 @@ namespace Westsworld;
 use Exception;
 use DateTime;
 // importing the language class
-use TimeAgo\Translations\Language;
-use TimeAgo\Translations\En;
+use Westsworld\TimeAgo\Language;
+use Westsworld\TimeAgo\Translations\En;
 
 /**
  * This class can help you find out just how much time has passed between
