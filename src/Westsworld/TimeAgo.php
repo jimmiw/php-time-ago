@@ -66,6 +66,10 @@ class TimeAgo
      */
     public function inWords(DateTime $past, DateTme $now = null)
     {
+        // ensuring that "now" is a DateTime object, using the past's timeZone
+        // if needed, to create a new now object.
+        $now = $this->getNow($past, $now);
+
         return $this->getLanguage()->inWords($past, $now);
     }
 
@@ -93,7 +97,7 @@ class TimeAgo
      */
     public function dateDifference(DateTime $past, DateTime $now = null)
     {
-        $now = static::getNow($past, $now);
+        $now = $this->getNow($past, $now);
 
         $difference = $past->diff($now);
 
@@ -114,7 +118,7 @@ class TimeAgo
      * @param DateTime $now the now to use or initialize
      * @return DateTime $now initialized, if it was not, else the original object
      */
-    public static function getNow(DateTime $past, DateTime $now = null): DateTime
+    public function getNow(DateTime $past, DateTime $now = null): DateTime
     {
         // handles cases where $now is null
         if (null === $now) {

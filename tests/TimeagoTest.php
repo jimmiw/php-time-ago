@@ -19,7 +19,7 @@ class TimeagoTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testInit()
+    public function te1stInit()
     {
         $timeAgo = new TimeAgo();
         $this->assertNotNull($timeAgo);

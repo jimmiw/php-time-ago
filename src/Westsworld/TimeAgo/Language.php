@@ -49,10 +49,8 @@ abstract class Language
      * @param DateTime $now the current timezone, defaults to now.
      * @return string the difference in spoken format, e.g. 1 day ago
      */
-    public function inWords(DateTime $past, DateTime $now = null)
+    public function inWords(DateTime $past, DateTime $now)
     {
-        $now = \Westsworld\TimeAgo::getNow($past, $now);
-
         // finds the time difference as a string
         return $this->getTimeDifference($past->diff($now));
     }
@@ -128,15 +126,15 @@ abstract class Language
 
         // rule 11
         // 2years or more
-        if ($this->isMoreThan2Years($timeDifference)) {
+        //if ($this->isMoreThan2Years($timeDifference)) {
             return $this->translate('years', $timeDifference->y);
-        }
+        //}
 
 
         // rule 0
         // $past is null or empty or ''
         // if ($this->isPastEmpty($past)) {
-            return $this->translate('never');
+            // return $this->translate('never');
         // }
     }
 
@@ -233,27 +231,29 @@ abstract class Language
     /**
      * Checks if the time difference is less than 23hours 59mins 29seconds
      *
-     * @param array $timeDifference the time difference from DateTime
+     * @param DateInterval $timeDifference the time difference from DateTime
      * @return bool
      */
-    private function isLessThan23Hours59Mins29Seconds(array $timeDifference)
+    private function isLessThan23Hours59Mins29Seconds(DateInterval $timeDifference)
     {
         return $timeDifference->h <= 23 &&
             $timeDifference->i <= 59 &&
-            $timeDifference->s < 30;
+            $timeDifference->s < 30 &&
+            ! $this->isLessThan1Hour29Mins59Seconds($timeDifference);
     }
 
     /**
      * Checks if the time difference is less than 27hours 59mins 29seconds
      *
-     * @param int $timeDifference the time difference from DateTime
+     * @param DateInterval $timeDifference the time difference from DateTime
      * @return bool
      */
-    private function isLessThan47Hours59Mins29Seconds($timeDifference)
+    private function isLessThan47Hours59Mins29Seconds(DateInterval $timeDifference)
     {
         return $timeDifference->h <= 47 &&
             $timeDifference->i <= 59 &&
-            $timeDifference->s < 30;
+            $timeDifference->s < 30 &&
+            ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -267,7 +267,8 @@ abstract class Language
         return $timeDifference->days <= 29 &&
             $timeDifference->h <= 23 &&
             $timeDifference->i <= 59 &&
-            $timeDifference->s < 30;
+            $timeDifference->s < 30 &&
+            ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -281,7 +282,8 @@ abstract class Language
         return $timeDifference->days <= 59 &&
             $timeDifference->h <= 23 &&
             $timeDifference->i <= 59 &&
-            $timeDifference->s <= 29;
+            $timeDifference->s <= 29 &&
+            ! $this->isLessThan29Days23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -303,12 +305,7 @@ abstract class Language
      */
     private function isLessThan2Years(DateInterval $timeDifference)
     {
-        return $timeDifference->y < 2 &&
-        ($timeDifference->m > 0 ||
-        $timeDifference->d > 0 ||
-        $timeDifference->h > 0 ||
-        $timeDifference->i > 0 ||
-        $timeDifference->s > 0);
+        return $timeDifference->y < 2;
     }
 
     /**
@@ -319,12 +316,7 @@ abstract class Language
      */
     private function isMoreThan2Years(DateInterval $timeDifference)
     {
-        return $timeDifference->y >= 2 &&
-            ($timeDifference->m > 0 ||
-            $timeDifference->d > 0 ||
-            $timeDifference->h > 0 ||
-            $timeDifference->i > 0 ||
-            $timeDifference->s > 0);
+        return $timeDifference->y >= 2;
     }
 
     /**
