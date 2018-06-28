@@ -160,11 +160,11 @@ abstract class Language
      */
     private function isLessThan29Seconds(DateInterval $timeDifference)
     {
-        return $timeDifference->y == 0 &&
-            $timeDifference->m == 0 &&
-            $timeDifference->d == 0 &&
-            $timeDifference->h == 0 &&
-            $timeDifference->i == 0 &&
+        return $timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d === 0 &&
+            $timeDifference->h === 0 &&
+            $timeDifference->i === 0 &&
             $timeDifference->s < 30;
     }
 
@@ -176,17 +176,16 @@ abstract class Language
      */
     private function isLessThan1Min29Seconds(DateInterval $timeDifference)
     {
-        if (! ($timeDifference->y == 0 &&
-            $timeDifference->m == 0 &&
-            $timeDifference->d == 0 &&
-            $timeDifference->h == 0
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d === 0 &&
+            $timeDifference->h === 0
         )) {
             return false;
         };
 
-        return $timeDifference->i <= 1 &&
-            $timeDifference->s < 30 &&
-            ! $this->isLessThan29Seconds($timeDifference);
+        return ($timeDifference->i === 1 && $timeDifference->s < 30) ||
+            ($timeDifference->i === 0 && ! $this->isLessThan29Seconds($timeDifference));
     }
 
     /**
@@ -197,10 +196,10 @@ abstract class Language
      */
     private function isLessThan44Min29Secs(DateInterval $timeDifference)
     {
-        if (! ($timeDifference->y == 0 &&
-            $timeDifference->m == 0 &&
-            $timeDifference->d == 0 &&
-            $timeDifference->h == 0
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d === 0 &&
+            $timeDifference->h === 0
         )) {
             return false;
         };

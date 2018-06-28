@@ -34,10 +34,12 @@ class TimeAgo
      */
     public function __construct(Language $language = null)
     {
-        if (null === $language) {
-            $language = new \Westsworld\TimeAgo\Translations\En();
-        }
         $this->language = $language;
+    }
+
+    public static function create(Language $language)
+    {
+        return new self($language);
     }
 
     /**
@@ -51,6 +53,8 @@ class TimeAgo
             return $this->language;
         }
 
+        $this->language = new \Westsworld\TimeAgo\Translations\En();
+
         return $this->language;
     }
 
@@ -63,6 +67,20 @@ class TimeAgo
     public function inWords(DateTime $past, DateTme $now = null)
     {
         return $this->getLanguage()->inWords($past, $now);
+    }
+
+    /**
+     * Handling the old functionality, by taking two string dates and returning them
+     * in a spoken format.
+     * @NOTE: both past and now should be parseable by strtotime
+     *
+     * @param string $past
+     * @param string $now
+     * @return void
+     */
+    public function inWordsFromStrings(string $past, string $now = 'now')
+    {
+        return $this->getLanguage()->inWords(new DateTime($past), new DateTime($now));
     }
 
     /**
