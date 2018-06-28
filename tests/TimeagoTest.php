@@ -108,7 +108,7 @@ class TimeagoTest extends TestCase
 
     public function testTimeAgoInWordsDateTime()
     {
-        $timeAgo = Westsworld\TimeAgo\Factory::create();
+        $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\En());
         
         // testing "less than a minute"
         $this->assertEquals('less than a minute ago', $timeAgo->inWords(new DateTime()));
@@ -130,26 +130,5 @@ class TimeagoTest extends TestCase
     public function testUnknownTranslation()
     {
         new TimeAgo(null, 'asd');
-    }
-
-    /**
-     * Tests loading translations, that exist :)
-     */
-    public function testLoadTranslations()
-    {
-        $timeAgo = new TimeAgo(null, 'da');
-        $timeAgo = new TimeAgo(null, 'en');
-        $timeAgo = new TimeAgo(null, 'de');
-    }
-
-    public function testDateDifference()
-    {
-        $past = new DateTime();
-        $now = new DateTime();
-        $past->sub(new DateInterval('PT1S'));
-
-        $timeAgo = new TimeAgo();
-        $difference = $timeAgo->dateDifference($past, $now);
-        $this->assertEquals(1, $difference['seconds']);
     }
 }
