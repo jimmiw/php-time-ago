@@ -215,16 +215,19 @@ abstract class Language
      */
     private function isLessThan1Hour29Mins59Seconds(DateInterval $timeDifference)
     {
-        if (! ($timeDifference->y == 0 &&
-            $timeDifference->m == 0 &&
-            $timeDifference->d == 0
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d === 0
         )) {
             return false;
         };
 
-        return $timeDifference->h <= 1 &&
+        return (($timeDifference->h === 1 &&
             $timeDifference->i < 30 &&
-            $timeDifference->s <= 59 &&
+            $timeDifference->s <= 59) ||
+            (
+                $timeDifference->h === 0
+            )) &&
             ! $this->isLessThan44Min29Secs($timeDifference);
     }
 
@@ -236,24 +239,44 @@ abstract class Language
      */
     private function isLessThan23Hours59Mins29Seconds(DateInterval $timeDifference)
     {
-        return $timeDifference->h <= 23 &&
-            $timeDifference->i <= 59 &&
-            $timeDifference->s < 30 &&
-            ! $this->isLessThan1Hour29Mins59Seconds($timeDifference);
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d === 0 &&
+            $timeDifference->h <= 23
+        )) {
+            return false;
+        };
+
+        if ($timeDifference->h === 23 &&
+            $timeDifference->i === 59
+        ) {
+            return $timeDifference->s < 30;
+        }
+            
+        return ! $this->isLessThan1Hour29Mins59Seconds($timeDifference);
     }
 
     /**
-     * Checks if the time difference is less than 27hours 59mins 29seconds
+     * Checks if the time difference is less than 47hours 59mins 29seconds
      *
      * @param DateInterval $timeDifference the time difference from DateTime
      * @return bool
      */
     private function isLessThan47Hours59Mins29Seconds(DateInterval $timeDifference)
     {
-        return $timeDifference->h <= 47 &&
-            $timeDifference->i <= 59 &&
-            $timeDifference->s < 30 &&
-            ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->d < 2
+        )) {
+            return false;
+        };
+
+        // doing a very specific test for 31 seconds BEFORE 2 days
+        if ($timeDifference->d === 1 && $timeDifference->h === 23 && $timeDifference->i === 59) {
+            return $timeDifference->s <= 29;
+        }
+
+        return ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -264,11 +287,22 @@ abstract class Language
      */
     private function isLessThan29Days23Hours59Mins29Seconds(DateInterval $timeDifference)
     {
-        return $timeDifference->days <= 29 &&
-            $timeDifference->h <= 23 &&
-            $timeDifference->i <= 59 &&
-            $timeDifference->s < 30 &&
-            ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->m === 0 &&
+            $timeDifference->days <= 29
+        )) {
+            return false;
+        };
+
+        // doing a very specific test for 31 seconds BEFORE 30 days
+        if ($timeDifference->days === 29 &&
+            $timeDifference->h === 23 &&
+            $timeDifference->i === 59
+        ) {
+            return $timeDifference->s <= 29;
+        }
+            
+        return ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -279,11 +313,20 @@ abstract class Language
      */
     private function isLessThan59Days23Hours59Mins29Secs(DateInterval $timeDifference)
     {
-        return $timeDifference->days <= 59 &&
-            $timeDifference->h <= 23 &&
-            $timeDifference->i <= 59 &&
-            $timeDifference->s <= 29 &&
-            ! $this->isLessThan29Days23Hours59Mins29Seconds($timeDifference);
+        if (! ($timeDifference->y === 0 &&
+            $timeDifference->days <= 59
+        )) {
+            return false;
+        };
+
+        if ($timeDifference->days === 59 &&
+            $timeDifference->h === 23 &&
+            $timeDifference->i === 59
+        ) {
+            return $timeDifference->s <= 29;
+        }
+            
+        return ! $this->isLessThan29Days23Hours59Mins29Seconds($timeDifference);
     }
 
     /**
@@ -294,7 +337,8 @@ abstract class Language
      */
     private function isLessThan1Year(DateInterval $timeDifference)
     {
-        return $timeDifference->y < 1;
+        return $timeDifference->y < 1 &&
+            $timeDifference->days <= 363;
     }
 
     /**

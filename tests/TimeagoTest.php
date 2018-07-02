@@ -84,13 +84,13 @@ class TimeagoTest extends TestCase
         // NOTE: this fails around leap years... so... -2 days must be accurate enough
         $twoDays = (2*86400); // 2 days in seconds
         $this->assertContains('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo + $twoDays)));
-        $this->assertNotContains('months ago', $timeAgo->inWordsFromStrings($oneYearAgo));
+        $this->assertNotContains('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo)));
 
         // testing 1 year
         $this->assertContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo - $twoDays)));
         $twoYearsAgo = strtotime("-2 year");
         $this->assertContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo + $twoDays)));
-        $this->assertNotContains('1 year ago', $timeAgo->inWordsFromStrings($twoYearsAgo));
+        $this->assertNotContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo)));
 
         // testing 2 years or more
         $this->assertEquals('over 2 years ago', $timeAgo->inWordsFromStrings("-2 year"));
@@ -121,14 +121,5 @@ class TimeagoTest extends TestCase
         $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT60S'))));
         $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT89S'))));
         $this->assertNotEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT90S'))));
-    }
-
-    /**
-     * Tries to load an unknown translation
-     * @expectedException Exception
-     */
-    public function testUnknownTranslation()
-    {
-        new TimeAgo(null, 'asd');
     }
 }
