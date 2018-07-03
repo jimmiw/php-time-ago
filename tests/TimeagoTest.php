@@ -122,4 +122,19 @@ class TimeagoTest extends TestCase
         $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT89S'))));
         $this->assertNotEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT90S'))));
     }
+
+    public function testLanguage()
+    {
+        // using default (english)
+        $timeAgo = new TimeAgo();
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords(new DateTime()));
+
+        // switching to danish
+        $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\Da());
+        $this->assertEquals('mindre end et minut siden', $timeAgo->inWords(new DateTime()));
+
+        // switching to german
+        $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\De());
+        $this->assertEquals('vor weniger als einer Minute', $timeAgo->inWords(new DateTime()));
+    }
 }
