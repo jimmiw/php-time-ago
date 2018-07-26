@@ -64,7 +64,7 @@ class TimeAgo
      * @param DateTime $now the current time, defaults to now, using timezone from $past
      * @return string the time difference in a spoken format, e.g. 1 day ago
      */
-    public function inWords(DateTime $past, DateTme $now = null)
+    public function inWords(DateTime $past, DateTime $now = null)
     {
         // ensuring that "now" is a DateTime object, using the past's timeZone
         // if needed, to create a new now object.
