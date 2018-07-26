@@ -5,9 +5,9 @@ namespace Westsworld\TimeAgo\Translations;
 use \Westsworld\TimeAgo\Language;
 
 /**
- * Bulgarian translations
+ * Catalan translations
  */
-class Bg extends Language
+class Ca extends Language
 {
     public function __construct()
     {
