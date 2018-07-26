@@ -5,7 +5,7 @@ namespace Westsworld\TimeAgo\Translations;
 use \Westsworld\TimeAgo\Language;
 
 /**
- * Danish translations
+ * English translations
  */
 class En extends Language
 {
