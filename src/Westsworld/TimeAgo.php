@@ -29,14 +29,19 @@ class TimeAgo
 
     /**
      * TimeAgo constructor.
-     * @param null|DateTimeZone $timezone the timezone to use (uses system if none is given)
-     * @param string $language the language to use (defaults to 'en' for english)
+     * @param Language $language the language to use (defaults to 'en' for english)
      */
     public function __construct(Language $language = null)
     {
         $this->language = $language;
     }
 
+    /**
+     * Creating an instance of the timeago class, using the given language
+     *
+     * @param Language $language the language to use
+     * @return TimeAgo
+     */
     public static function create(Language $language)
     {
         return new self($language);
