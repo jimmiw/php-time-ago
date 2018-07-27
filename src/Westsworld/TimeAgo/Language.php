@@ -23,9 +23,8 @@ abstract class Language
      * Sets the list of translations, in a key->value format
      *
      * @param array $translations the translations to set
-     * @return void
      */
-    public function setTranslations(array $translations): void
+    public function setTranslations(array $translations)
     {
         $this->translations = $translations;
     }
