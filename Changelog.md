@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.0.1
+* Typo fixes, thanks @jlratwil
+* Did some changes to composer, so php 7.0 can also be tested on travis.
+* Removed hhvm and 5.6 from travis, since phpunit cannot go that low.
+
 ### 3.0.0
 * Redid most of the code, to work with DateTime objects instead.
 * Renamed the old inWords method to inWordsFromStrings, so that still works.
