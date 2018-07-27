@@ -18,7 +18,7 @@ class Pt_BR extends Language
             'aboutOneYear' => "cerca de 1 ano atrás",
             'days' => "%s dias atrás",
             'hours' => "%s horas atrás",
-            'lessThanAMinute' => "menos de um minuto atras",
+            'lessThanAMinute' => "menos de um minuto atrás",
             'lessThanOneHour' => "%s minutos atrás",
             'months' => "%s meses atrás",
             'oneMinute' => "1 minuto atrás",

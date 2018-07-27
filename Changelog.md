@@ -1,5 +1,11 @@
 ## Changelog
 
+### 3.0.3
+* Updated Pt-BR, thanks to @ivesbrito
+
+### 3.0.2
+* updated phpdoc for constructor
+
 ### 3.0.1
 * Typo fixes, thanks @jlratwil
 * Did some changes to composer, so php 7.0 can also be tested on travis.
