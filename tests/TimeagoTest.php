@@ -46,6 +46,7 @@ class TimeagoTest extends TestCase
 
         // testing 2..44 minutes
         $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-2 minute"));
+        $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-2 minute -40 second"));
         $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute"));
         $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -29 second"));
         $this->assertNotContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -30 second"));

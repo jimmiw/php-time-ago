@@ -201,8 +201,8 @@ abstract class Language
             return false;
         };
 
-        return $timeDifference->i < 45 &&
-            $timeDifference->s < 30 &&
+        return ($timeDifference->i < 44 ||
+            ($timeDifference->i === 44 && $timeDifference->s < 30)) &&
             ! $this->isLessThan1Min29Seconds($timeDifference);
     }
 
