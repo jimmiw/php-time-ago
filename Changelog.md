@@ -1,5 +1,9 @@
 ## Changelog
 
+### 3.0.4
+* Fixed a bug with isLessThan44Min29Secs, thanks @ruben-haegeman
+* Added Polish translations, thanks to @biegacz1
+
 ### 3.0.3
 * Updated Pt-BR, thanks to @ivesbrito
 
