@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.5
+* Cs translation more correct, thanks @MartkCz
+
 ### 3.0.4
 * Fixed a bug with isLessThan44Min29Secs, thanks @ruben-haegeman
 * Added Polish translations, thanks to @biegacz1
