@@ -18,7 +18,7 @@ class Cs extends Language
             'aboutOneYear' => "před 1 rokem",
             'days' => "před %s dny",
             'hours' => "před %s hodinami",
-            'lessThanAMinute' => "před méně jak minutou",
+            'lessThanAMinute' => "před méně než minutou",
             'lessThanOneHour' => "před %s minutami",
             'months' => "před %s měsíci",
             'oneMinute' => "před 1 minutou",
