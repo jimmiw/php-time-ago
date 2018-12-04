@@ -25,25 +25,23 @@ composer require jimmiw/php-time-ago
 
 ## Using the component
 
-There is now only one way to get the time ago in words
-There are now two ways of getting the time ago in words.
+There are two ways of getting the time ago in words.
 
-The new way (3.0.0 and up):
+By passing `DateTime` objects:
 
 ```
 $timeAgo = new Westsworld\TimeAgo();
 echo $timeAgo->inWords(new DateTime("2010-01-10 23:05:00"));
 ```
 
-And the old way (please notice the changed interface) before 3.0.0:
+By passing strings:
 
 ```
 $timeAgo = new Westsworld\TimeAgo();
 echo $timeAgo->inWordsFromStrings("2010/1/10 23:05:00");
 ```
 
-Both methods gives the same answer, and uses the same internal logic, I just upgraded
-to DateTime, since that what I always use.
+Both methods give the same answer, and use the same internal logic.
 
 ## Do you want the actual years, months, days, hours, minutes, seconds difference?
 
