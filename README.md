@@ -123,39 +123,9 @@ $timeAgo = new Westsworld\TimeAgo($myLang); // default language is en (english)
 echo $timeAgo->inWords("2010/1/10 23:05:00");
 ```
 
-Avaliable languages :
+# Available translation languages
 
-```
-$myLang = new \Westsworld\TimeAgo\Translations\Ar();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Bg();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Ca();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Cs();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Da();      # Danish
-$myLang = new \Westsworld\TimeAgo\Translations\De();      # 
-$myLang = new \Westsworld\TimeAgo\Translations\En();      # English (default)
-$myLang = new \Westsworld\TimeAgo\Translations\Es();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Fa_IR();   #
-$myLang = new \Westsworld\TimeAgo\Translations\Fi();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Fr();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Ge();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Hu();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Id();      # Indonesian
-$myLang = new \Westsworld\TimeAgo\Translations\Ja();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Ko();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Lv();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Nl();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Pl();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Pt_BR();   #
-$myLang = new \Westsworld\TimeAgo\Translations\Ru();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Sk();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Sv_SE();   #
-$myLang = new \Westsworld\TimeAgo\Translations\Th();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Tr();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Uk();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Vi();      #
-$myLang = new \Westsworld\TimeAgo\Translations\Zh_CN();   #
-$myLang = new \Westsworld\TimeAgo\Translations\Zh_Tw();   #
-```
+You can view the file of available list inside /src/Westsworld/TimeAgo/Translations/ folder.
 
 # Changelog
 
