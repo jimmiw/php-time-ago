@@ -7,7 +7,7 @@ use \Westsworld\TimeAgo\Language;
 /**
  * Indonesian translations
  */
-class En extends Language
+class Id extends Language
 {
     public function __construct()
     {
