@@ -57,7 +57,8 @@ class TimeagoTest extends TestCase
         $this->assertNotEquals('about 1 hour ago', $timeAgo->inWordsFromStrings("-90 minute"));
 
         // testing about 2..24 hours
-        $this->assertContains('hours ago', $timeAgo->inWordsFromStrings("-90 minute"));
+        $this->assertEquals('2 hours ago', $timeAgo->inWordsFromStrings("-90 minute"));
+        $this->assertEquals('2 hours ago', $timeAgo->inWordsFromStrings("-110 minute"));
         $this->assertContains('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -29 second"));
         $this->assertNotContains('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -30 second"));
         $this->assertNotContains('hours ago', $timeAgo->inWordsFromStrings("-24 hour"));

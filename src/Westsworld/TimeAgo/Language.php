@@ -89,7 +89,7 @@ abstract class Language
         // rule 5
         // between 1hour29mins59secs and 23hours59mins29secs
         if ($this->isLessThan23Hours59Mins29Seconds($timeDifference)) {
-            return $this->translate('hours', $timeDifference->h);
+            return $this->translate('hours', $timeDifference->h === 1 ? 2 : $timeDifference->h);
         }
 
         // rule 6
