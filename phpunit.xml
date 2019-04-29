@@ -10,11 +10,7 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./</directory>
-            <exclude>
-                <directory suffix=".php">./vendor</directory>
-                <directory suffix=".php">./translations</directory>
-            </exclude>
+            <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
 

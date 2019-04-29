@@ -58,7 +58,7 @@ class TimeAgo
             return $this->language;
         }
 
-        $this->language = new \Westsworld\TimeAgo\Translations\En();
+        $this->language = new En();
 
         return $this->language;
     }
