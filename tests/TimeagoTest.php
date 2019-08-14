@@ -2,10 +2,11 @@
 
 namespace Westsworld\TimeAgo\Tests;
 
-use Westsworld\TimeAgo;
-use PHPUnit\Framework\TestCase;
-use DateTime;
 use DateInterval;
+use DateTime;
+use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
+use Westsworld\TimeAgo;
 
 /**
  * Testing timeago dates
@@ -42,7 +43,7 @@ class TimeagoTest extends TestCase
         $this->assertEquals('1 minute ago', $timeAgo->inWordsFromStrings("-60 second"));
         $this->assertEquals('1 minute ago', $timeAgo->inWordsFromStrings("-89 second"));
         $this->assertNotEquals('1 minute ago', $timeAgo->inWordsFromStrings("-90 second"));
-        
+
 
         // testing 2..44 minutes
         $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-2 minute"));
@@ -111,7 +112,7 @@ class TimeagoTest extends TestCase
     public function testTimeAgoInWordsDateTime()
     {
         $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\En());
-        
+
         // testing "less than a minute"
         $this->assertEquals('less than a minute ago', $timeAgo->inWords(new DateTime()));
         $this->assertEquals('less than a minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT1S'))));
@@ -123,6 +124,23 @@ class TimeagoTest extends TestCase
         $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT60S'))));
         $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT89S'))));
         $this->assertNotEquals('1 minute ago', $timeAgo->inWords((new DateTime())->sub(new DateInterval('PT90S'))));
+    }
+
+    public function testTimeAgoInWordsDateTimeImmutable()
+    {
+        $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\En());
+
+        // testing "less than a minute"
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords(new DateTimeImmutable()));
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT1S'))));
+        $this->assertEquals('less than a minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT29S'))));
+        $this->assertNotEquals('less than a minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT30S'))));
+
+        // testing "1 minute"
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT30S'))));
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT60S'))));
+        $this->assertEquals('1 minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT89S'))));
+        $this->assertNotEquals('1 minute ago', $timeAgo->inWords((new DateTimeImmutable())->sub(new DateInterval('PT90S'))));
     }
 
     public function testLanguage()

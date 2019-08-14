@@ -2,8 +2,9 @@
 
 namespace Westsworld\TimeAgo;
 
-use \DateTime;
-use \DateInterval;
+use DateInterval;
+use DateTime;
+use DateTimeInterface;
 
 abstract class Language
 {
@@ -42,13 +43,13 @@ abstract class Language
 
     /**
      * Fetches the different between $past and $now in a spoken format.
-     * NOTE: both past and now should be instances of DateTime
+     * NOTE: both past and now should be instances of DateTimeInterface
      *
-     * @param DateTime $past the past date to use
-     * @param DateTime $now the current timezone, defaults to now.
+     * @param DateTimeInterface $past the past date to use
+     * @param DateTimeInterface $now the current timezone, defaults to now.
      * @return string the difference in spoken format, e.g. 1 day ago
      */
-    public function inWords(DateTime $past, DateTime $now)
+    public function inWords(DateTimeInterface $past, DateTimeInterface $now)
     {
         // finds the time difference as a string
         return $this->getTimeDifference($past->diff($now));
@@ -141,7 +142,7 @@ abstract class Language
     /**
      * Checks if the given past is empty
      *
-     * @param DateTime $past the "past" to check
+     * @param DateTimeInterface $past the "past" to check
      * @return bool true if empty, else false
      */
     // private function isPastEmpty($past)
@@ -251,7 +252,7 @@ abstract class Language
         ) {
             return $timeDifference->s < 30;
         }
-            
+
         return ! $this->isLessThan1Hour29Mins59Seconds($timeDifference);
     }
 
@@ -300,7 +301,7 @@ abstract class Language
         ) {
             return $timeDifference->s <= 29;
         }
-            
+
         return ! $this->isLessThan23Hours59Mins29Seconds($timeDifference);
     }
 
@@ -324,7 +325,7 @@ abstract class Language
         ) {
             return $timeDifference->s <= 29;
         }
-            
+
         return ! $this->isLessThan29Days23Hours59Mins29Seconds($timeDifference);
     }
 
