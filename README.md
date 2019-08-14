@@ -117,11 +117,15 @@ The translation is simply a language code string added to the end of the class i
 Examples using the Danish translations:
 
 ```
-$timeZone = null; // just use the system timezone
+$myLang = new \Westsworld\TimeAgo\Translations\Da();
 
-$timeAgo = new Westsworld\TimeAgo($timeZone, 'da'); // default language is en (english)
+$timeAgo = new Westsworld\TimeAgo($myLang); // default language is en (english)
 echo $timeAgo->inWords("2010/1/10 23:05:00");
 ```
+
+# Available translation languages
+
+You can view the file of available list inside /src/Westsworld/TimeAgo/Translations/ folder.
 
 # Changelog
 
