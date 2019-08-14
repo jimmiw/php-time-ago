@@ -1,5 +1,8 @@
 ## Changelog
 
+### TBD
+* Added support for DateTimeImmutable objects
+
 ### 3.0.6
 * Fixed #79 where 1h30m would be 1 hours ago instead of 2 hours ago
 
