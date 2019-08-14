@@ -138,5 +138,8 @@ class TimeagoTest extends TestCase
         // switching to german
         $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\De());
         $this->assertEquals('vor weniger als einer Minute', $timeAgo->inWords(new DateTime()));
+        
+        $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\Sv_SE());
+        $this->assertEquals('mindre än en minut sedan', $timeAgo->inWords(new DateTime()));
     }
 }

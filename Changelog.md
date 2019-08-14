@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.1.0
+* Changed from psr-0 to psr-4, since some language classes could not be loaded properly
+
 ### 3.0.6
 * Fixed #79 where 1h30m would be 1 hours ago instead of 2 hours ago
 

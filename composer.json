@@ -20,8 +20,8 @@
         "squizlabs/php_codesniffer": "^3.3"
     },
     "autoload": {
-		"psr-0": {
-			"Westsworld": "src/"
+		"psr-4": {
+			"Westsworld\\": "src/Westsworld/"
 		}
     },
     "config": {
