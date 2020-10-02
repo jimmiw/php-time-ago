@@ -10,7 +10,7 @@
 
 # Getting started
 
-The package is availabe here on Github and on Packagist
+The package is available here on Github and on Packagist
 
 * https://github.com/jimmiw/php-time-ago
 * https://packagist.org/packages/jimmiw/php-time-ago
@@ -85,13 +85,13 @@ This will return an array with the following data:
   2 yrs <-> max time or date                                                # => over [2..X] years
 ```
 
-# Changes since last version
+# Changes since the last version
 
 Lots have changed since the last version. The WWDateTime class is no longer supported.
-I have implemented a new class which takes a time string as parameter (and a
+I have implemented a new class which takes a time string as a parameter (and a
 timezone if needed), and calculates the time between them.
 
-By request from "lsolesen" (a guy from here on github) I did removed the whole
+By request from "lsolesen" (a guy from here on GitHub), I did remove the whole
 DateTime dependence thingy.
 
 # About
@@ -102,14 +102,14 @@ http://dk.php.net/time
 
 http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
 
-You should really look in to the Carbon project, it looks very nice and gives the same functionality and a lot more.
+You should really look into the Carbon project, it looks very nice and gives the same functionality and a lot more.
 
 This class is here to give you the same functionality that DateTime::diff will give you.
 
 
 # Translations added
 
-*Version 0.4.x was the big translations release.*
+*Version 0.4.x was the big translation's release.*
 
 You can now translate the texts returned using the $timeAgo->inWords() or timeAgoInWords() methods.
 The translation is simply a language code string added to the end of the class init or timeAgoInWords() method.
