@@ -242,7 +242,7 @@ abstract class Language
         if (! ($timeDifference->y === 0 &&
             $timeDifference->m === 0 &&
             $timeDifference->d === 0 &&
-            $timeDifference->h <= 23
+            $timeDifference->h < 24
         )) {
             return false;
         };
