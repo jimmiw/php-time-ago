@@ -1,5 +1,11 @@
 ## Changelog
 
+### 3.1.1
+* Updated a classname psr-4 bug in Zh_Tw, since the file was named Zh_TW.
+* Updated php requirement to >=7.0.0, since we are using return types anyways.
+* Updated return type in phpdoc on inWordsFromStrings()
+* Removed En import in TimeAgo as well.
+
 ### 3.1.0
 * Changed from psr-0 to psr-4, since some language classes could not be loaded properly
 * Added support for DateTimeImmutable objects, thanks to @xtreamwayz

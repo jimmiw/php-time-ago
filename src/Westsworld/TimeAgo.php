@@ -8,7 +8,6 @@ use DateTimeInterface;
 use Exception;
 // importing the language class
 use Westsworld\TimeAgo\Language;
-use Westsworld\TimeAgo\Translations\En;
 
 /**
  * This class can help you find out just how much time has passed between
@@ -86,7 +85,7 @@ class TimeAgo
      *
      * @param string $past
      * @param string $now
-     * @return void
+     * @return string
      */
     public function inWordsFromStrings(string $past, string $now = 'now')
     {
