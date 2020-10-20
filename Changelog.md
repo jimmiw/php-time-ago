@@ -1,5 +1,9 @@
 ## Changelog
 
+### 3.2.0
+* Added Italian translation, thanks to @vegagame
+* Added Norweigan translation, thanks to @zreedeecom
+
 ### 3.1.1
 * Updated a classname psr-4 bug in Zh_Tw, since the file was named Zh_TW.
 * Updated php requirement to >=7.0.0, since we are using return types anyways.
