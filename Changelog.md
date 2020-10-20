@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.2.1
+* Unittest update around leap years
+
 ### 3.2.0
 * Added Italian translation, thanks to @vegagame
 * Added Norweigan translation, thanks to @zreedeecom
