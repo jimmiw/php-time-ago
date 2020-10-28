@@ -5,14 +5,14 @@ namespace Westsworld\TimeAgo\Translations;
 use \Westsworld\TimeAgo\Language;
 
 /**
- * Short English translations
+ * German translations
  */
 class En_short extends Language
 {
     public function __construct()
     {
         $this->setTranslations([
-            'aboutOneDay' => "1d",
+              'aboutOneDay' => "1d",
             'aboutOneHour' => "~1h",
             'aboutOneMonth' => "~1M",
             'aboutOneYear' => "~y",
