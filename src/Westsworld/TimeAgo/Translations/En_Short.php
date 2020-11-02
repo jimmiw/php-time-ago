@@ -7,7 +7,7 @@ use \Westsworld\TimeAgo\Language;
 /**
  * short English translations
  */
-class En_short extends Language
+class En_Short extends Language
 {
     public function __construct()
     {
