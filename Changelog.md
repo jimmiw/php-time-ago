@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.2.2
+* Update to TR translation to remove three dots from "years" translation, thanks @ozgurg 
+
 ### 3.2.1
 * Unittest update around leap years
 
