@@ -29,14 +29,14 @@ There are two ways of getting the time ago in words.
 
 By passing `DateTime` objects:
 
-```
+```php
 $timeAgo = new Westsworld\TimeAgo();
 echo $timeAgo->inWords(new DateTime("2010-01-10 23:05:00"));
 ```
 
 By passing strings:
 
-```
+```php
 $timeAgo = new Westsworld\TimeAgo();
 echo $timeAgo->inWordsFromStrings("2010/1/10 23:05:00");
 ```
@@ -49,7 +49,7 @@ Good news for you then!
 I've implemented a nice little function that does just that for you. Simply do the
 following:
 
-```
+```php
 $timeAgo = new Westsworld\TimeAgo();
 // NOTE: this is actually deprecated, since DateTime does the same. Still works though :)
 $dateDifferenceArray =  $timeAgo->dateDifference("2017-03-02 07:53:00", "2017-03-02 07:53:01");
@@ -57,7 +57,7 @@ $dateDifferenceArray =  $timeAgo->dateDifference("2017-03-02 07:53:00", "2017-03
 
 This will return an array with the following data:
 
-```
+```php
 [
 	'years' => 0
 	'months' => 0
@@ -70,20 +70,19 @@ This will return an array with the following data:
 
 
 # How to determine, what "ago" is
-
-```
-  0 <-> 29 secs                                                             # => less than a minute
-  30 secs <-> 1 min, 29 secs                                                # => 1 minute
-  1 min, 30 secs <-> 44 mins, 29 secs                                       # => [2..44] minutes
-  44 mins, 30 secs <-> 89 mins, 29 secs                                     # => about 1 hour
-  89 mins, 29 secs <-> 23 hrs, 59 mins, 29 secs                             # => about [2..24] hours
-  23 hrs, 59 mins, 29 secs <-> 47 hrs, 59 mins, 29 secs                     # => 1 day
-  47 hrs, 59 mins, 29 secs <-> 29 days, 23 hrs, 59 mins, 29 secs            # => [2..29] days
-  29 days, 23 hrs, 59 mins, 30 secs <-> 59 days, 23 hrs, 59 mins, 29 secs   # => about 1 month
-  59 days, 23 hrs, 59 mins, 30 secs <-> 1 yr minus 1 sec                    # => [2..12] months
-  1 yr <-> 2 yrs minus 1 secs                                               # => about 1 year
-  2 yrs <-> max time or date                                                # => over [2..X] years
-```
+| Time | Text |
+------------ | -------------
+0 <-> 29 secs | less than a minute
+30 secs <-> 1 min, 29 secs | 1 minute
+1 min, 30 secs <-> 44 mins, 29 secs | [2..44] minutes
+44 mins, 30 secs <-> 89 mins, 29 secs | about 1 hour
+89 mins, 29 secs <-> 23 hrs, 59 mins, 29 secs | about [2..24] hours
+23 hrs, 59 mins, 29 secs <-> 47 hrs, 59 mins, 29 secs | 1 day
+47 hrs, 59 mins, 29 secs <-> 29 days, 23 hrs, 59 mins, 29 secs | [2..29] days
+29 days, 23 hrs, 59 mins, 30 secs <-> 59 days, 23 hrs, 59 mins, 29 secs | about 1 month
+59 days, 23 hrs, 59 mins, 30 secs <-> 1 yr minus 1 sec | [2..12] months
+1 yr <-> 2 yrs minus 1 secs | about 1 year
+2 yrs <-> max time or date | over [2..X] years
 
 # Changes since last version
 
@@ -116,7 +115,7 @@ The translation is simply a language code string added to the end of the class i
 
 Examples using the Danish translations:
 
-```
+```php
 $myLang = new \Westsworld\TimeAgo\Translations\Da();
 
 $timeAgo = new Westsworld\TimeAgo($myLang); // default language is en (english)
