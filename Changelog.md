@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.2.3
+* Added a "short" english translation, thanks to @MoPaMo
+
 ### 3.2.2
 * Update to TR translation to remove three dots from "years" translation, thanks @ozgurg 
 
