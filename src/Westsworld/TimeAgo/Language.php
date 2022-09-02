@@ -378,7 +378,7 @@ abstract class Language
         //     $months = 2;
         // }
         // return $months;
-        return (int)$timeDifference->m;
+        return (int)($timeDifference->m === 1 ? 2 : $timeDifference->m);
     }
 
     /**

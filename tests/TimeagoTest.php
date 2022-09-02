@@ -160,4 +160,18 @@ class TimeagoTest extends TestCase
         $timeAgo = new TimeAgo(new \Westsworld\TimeAgo\Translations\Sv_SE());
         $this->assertEquals('mindre än en minut sedan', $timeAgo->inWords(new DateTime()));
     }
+
+    /**
+     * An issue with "1 mounts ago" was raised from users of the module.
+     * StartDate: 01 July 2022
+     * EndDate: 01 September 2022
+     * Result with ->inWords(): "1 months ago"
+     */
+    public function testIssue95()
+    {
+        $timeAgo = new TimeAgo();
+        $startDate = new DateTime('2022-07-01 15:00:00');
+        $endDate = new DateTime('2022-09-01 14:00:00');
+        $this->assertEquals('2 months ago', $timeAgo->inWords($startDate, $endDate));
+    }
 }
