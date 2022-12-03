@@ -5,6 +5,8 @@ namespace Westsworld\TimeAgo;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
+use NumberFormatter;
+use ReflectionClass;
 
 abstract class Language
 {
@@ -397,6 +399,9 @@ abstract class Language
             return '';
         }
 
-        return sprintf($this->getTranslations()[$label], $time);
+        $localeName = (new ReflectionClass($this))->getShortName();
+        $numberFormatter = NumberFormatter::create($localeName, NumberFormatter::DEFAULT_STYLE);
+        $localizedTime = $numberFormatter->format($time) ?? $time;
+        return sprintf($this->getTranslations()[$label], $localizedTime);
     }
 }
