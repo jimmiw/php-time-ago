@@ -46,11 +46,11 @@ class TimeagoTest extends TestCase
 
 
         // testing 2..44 minutes
-        $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-2 minute"));
-        $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-2 minute -40 second"));
-        $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute"));
-        $this->assertContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -29 second"));
-        $this->assertNotContains('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -30 second"));
+        $this->assertStringContainsString('minutes ago', $timeAgo->inWordsFromStrings("-2 minute"));
+        $this->assertStringContainsString('minutes ago', $timeAgo->inWordsFromStrings("-2 minute -40 second"));
+        $this->assertStringContainsString('minutes ago', $timeAgo->inWordsFromStrings("-44 minute"));
+        $this->assertStringContainsString('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -29 second"));
+        $this->assertStringNotContainsString('minutes ago', $timeAgo->inWordsFromStrings("-44 minute -30 second"));
 
         // testing about 1 hour
         $this->assertEquals('about 1 hour ago', $timeAgo->inWordsFromStrings("-44 minute -30 second"));
@@ -60,9 +60,9 @@ class TimeagoTest extends TestCase
         // testing about 2..24 hours
         $this->assertEquals('2 hours ago', $timeAgo->inWordsFromStrings("-90 minute"));
         $this->assertEquals('2 hours ago', $timeAgo->inWordsFromStrings("-110 minute"));
-        $this->assertContains('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -29 second"));
-        $this->assertNotContains('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -30 second"));
-        $this->assertNotContains('hours ago', $timeAgo->inWordsFromStrings("-24 hour"));
+        $this->assertStringContainsString('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -29 second"));
+        $this->assertStringNotContainsString('hours ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -30 second"));
+        $this->assertStringNotContainsString('hours ago', $timeAgo->inWordsFromStrings("-24 hour"));
 
         // testing 1 day
         $this->assertEquals('1 day ago', $timeAgo->inWordsFromStrings("-23 hour -59 minute -30 second"));
@@ -70,9 +70,9 @@ class TimeagoTest extends TestCase
         $this->assertNotEquals('1 day ago', $timeAgo->inWordsFromStrings("-47 hour -59 minute -30 second"));
 
         // testing 2..24 days
-        $this->assertContains('days ago', $timeAgo->inWordsFromStrings("-47 hour -59 minute -30 second"));
-        $this->assertContains('days ago', $timeAgo->inWordsFromStrings("-29 day -23 hour -59 minute -29 second"));
-        $this->assertNotContains('days ago', $timeAgo->inWordsFromStrings("-29 day -23 hour -59 minute -30 second"));
+        $this->assertStringContainsString('days ago', $timeAgo->inWordsFromStrings("-47 hour -59 minute -30 second"));
+        $this->assertStringContainsString('days ago', $timeAgo->inWordsFromStrings("-29 day -23 hour -59 minute -29 second"));
+        $this->assertStringNotContainsString('days ago', $timeAgo->inWordsFromStrings("-29 day -23 hour -59 minute -30 second"));
 
         // testing 1 month
         $this->assertEquals('about 1 month ago', $timeAgo->inWordsFromStrings("-29 day -23 hour -59 minute -30 second"));
@@ -80,20 +80,20 @@ class TimeagoTest extends TestCase
         $this->assertNotEquals('about 1 month ago', $timeAgo->inWordsFromStrings("-59 day -23 hour -59 minute -30 second"));
 
         // testing 2..12 months
-        $this->assertContains('months ago', $timeAgo->inWordsFromStrings("-59 day -23 hour -59 minute -30 second"));
+        $this->assertStringContainsString('months ago', $timeAgo->inWordsFromStrings("-59 day -23 hour -59 minute -30 second"));
 
         // seemed to be the easiest way to get 1 year - 1 second, which should be the day before 1 year ago :)
         $oneYearAgo = strtotime("-1 year");
         // NOTE: this fails around leap years... so... -4 days must be accurate enough
         $twoDays = (4*86400); // 4 days in seconds
-        $this->assertContains('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo + $twoDays)));
-        $this->assertNotContains('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo)));
+        $this->assertStringContainsString('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo + $twoDays)));
+        $this->assertStringNotContainsString('months ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo)));
 
         // testing 1 year
-        $this->assertContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo - $twoDays)));
+        $this->assertStringContainsString('1 year ago', $timeAgo->inWordsFromStrings(date('c', $oneYearAgo - $twoDays)));
         $twoYearsAgo = strtotime("-2 year");
-        $this->assertContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo + $twoDays)));
-        $this->assertNotContains('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo)));
+        $this->assertStringContainsString('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo + $twoDays)));
+        $this->assertStringNotContainsString('1 year ago', $timeAgo->inWordsFromStrings(date('c', $twoYearsAgo)));
 
         // testing 2 years or more
         $this->assertEquals('over 2 years ago', $timeAgo->inWordsFromStrings("-2 year"));
