@@ -23,6 +23,13 @@ Using composer you can just do the following
 composer require jimmiw/php-time-ago
 ```
 
+## PHP Version notes
+
+From version 3.3.0, we are not supporting the old php version. This is PHP 8.2 and up.
+This change was done, as there are security issues with older version of both PHP and PHPUnit.
+
+This means that version 3.2.x and below support PHP 8.1 and below.
+
 ## Using the component
 
 There are two ways of getting the time ago in words.
