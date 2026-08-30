@@ -1,3 +1,6 @@
+/.idea/
+/.phpunit.cache/
+/build/
+/report/
+/vendor/
 composer.lock
-vendor
-report
