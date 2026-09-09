@@ -3,6 +3,49 @@
 All notable changes to this package. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## 1.1.0
+
+### The interval is now described by the unit it is nearest to
+
+Every threshold is now the point at which the rounded count changes, replacing a
+mix of rounded and floored rules inherited from the original. Three defects went
+with it.
+
+* **The "about one X" phrases covered `[1X, 2X)`.** "about 1 month" ran from 30
+  days to 60, so 59 days — very nearly two months — read "about 1 month". The same
+  held for "1 day" (24h to 48h, so 47 hours read "1 day") and "about 1 year" (12
+  to 24 months). Each now sits centred on its unit: "about 1 month" is roughly
+  29.5 to 45 days, "about 1 day" is 23.5 to 36 hours, "about 1 year" is 12 to 17
+  months.
+* **Counts floored instead of rounding**, so every value read up to a whole unit
+  low: 2m40s was "2 minutes", 3h59m was "3 hours", 91 days was "2 months". They
+  now round to the nearest.
+* **The month handover was a fixed day count** while months are calendar units, so
+  the same calendar delta answered differently from year to year: 1 February to 1
+  April read "about 1 month" in 2021 (59 days) but "2 months" in 2024 (60 days).
+  Months are now taken from the interval's calendar fields, so it reads
+  "2 months" in both.
+
+`over N years` counts whole years elapsed rather than rounded months, so it stays
+literally true; an interval of 1 year 11 months reads "over 1 year". This is why
+the year bucket floors where every other unit rounds.
+
+The `atLeastTwo()` floor disappeared with the rewrite. It only existed because
+buckets began halfway through their first unit; with rounding, a count of one is
+unreachable for any unit that has its own singular phrase.
+
+No API changed, and no translation string changed. What changed is which phrase a
+given interval selects — if you have snapshot tests over the output, expect them
+to move.
+
+### Tests
+
+* Added a monotonicity property test: across every second of the first 55 hours
+  and hourly out to 900 days, the described magnitude may never decrease. A
+  threshold that overlapped or left a gap fails it with the exact second.
+* Added a property test that "over N years" never overstates the interval.
+* 7504 tests, still at 100% line coverage.
+
 ## 1.0.0
 
 First release of `alexxiy/php-time-intervals`, forked from
@@ -255,7 +298,50 @@ Now using namespaces to handle the source.
 * Updated composer.lock
 * Updated .travis.yml
 
-### 1.0.0
+### 1.1.0
+
+### The interval is now described by the unit it is nearest to
+
+Every threshold is now the point at which the rounded count changes, replacing a
+mix of rounded and floored rules inherited from the original. Three defects went
+with it.
+
+* **The "about one X" phrases covered `[1X, 2X)`.** "about 1 month" ran from 30
+  days to 60, so 59 days — very nearly two months — read "about 1 month". The same
+  held for "1 day" (24h to 48h, so 47 hours read "1 day") and "about 1 year" (12
+  to 24 months). Each now sits centred on its unit: "about 1 month" is roughly
+  29.5 to 45 days, "about 1 day" is 23.5 to 36 hours, "about 1 year" is 12 to 17
+  months.
+* **Counts floored instead of rounding**, so every value read up to a whole unit
+  low: 2m40s was "2 minutes", 3h59m was "3 hours", 91 days was "2 months". They
+  now round to the nearest.
+* **The month handover was a fixed day count** while months are calendar units, so
+  the same calendar delta answered differently from year to year: 1 February to 1
+  April read "about 1 month" in 2021 (59 days) but "2 months" in 2024 (60 days).
+  Months are now taken from the interval's calendar fields, so it reads
+  "2 months" in both.
+
+`over N years` counts whole years elapsed rather than rounded months, so it stays
+literally true; an interval of 1 year 11 months reads "over 1 year". This is why
+the year bucket floors where every other unit rounds.
+
+The `atLeastTwo()` floor disappeared with the rewrite. It only existed because
+buckets began halfway through their first unit; with rounding, a count of one is
+unreachable for any unit that has its own singular phrase.
+
+No API changed, and no translation string changed. What changed is which phrase a
+given interval selects — if you have snapshot tests over the output, expect them
+to move.
+
+### Tests
+
+* Added a monotonicity property test: across every second of the first 55 hours
+  and hourly out to 900 days, the described magnitude may never decrease. A
+  threshold that overlapped or left a gap fails it with the exact second.
+* Added a property test that "over N years" never overstates the interval.
+* 7504 tests, still at 100% line coverage.
+
+## 1.0.0
 
 Introducing exceptions (so remember to handle them) and removed the old way of overloading the translations
 path. Also renamed a few methods.

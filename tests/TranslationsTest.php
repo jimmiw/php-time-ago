@@ -186,7 +186,8 @@ final class TranslationsTest extends TestCase
         $formatter = IntervalFormatter::forLocale($locale);
         $now = new DateTimeImmutable('2020-06-15 12:00:00', new DateTimeZone('UTC'));
 
-        $offsets = [0, 30, 90, 2670, 5400, 86370, 172770, 2591970, 5183970];
+        // The first second of each bucket, per the rule table in Classifier.
+        $offsets = [0, 30, 90, 2670, 5400, 84600, 129600, 2548800];
         $dates = [];
         foreach ($offsets as $offset) {
             $dates[] = $now->sub(new DateInterval('PT' . $offset . 'S'));

@@ -246,23 +246,34 @@ belong on the `Style` axis, or in your own code.
 
 ## How the interval is described
 
+An interval is described by the unit it is *nearest to*, not the one it has merely
+reached. Every threshold below is the point at which the rounded count ticks over:
+
 ```
-  0 secs                    <-> 29 secs                                 less than a minute
-  30 secs                   <-> 1 min, 29 secs                          1 minute
-  1 min, 30 secs            <-> 44 mins, 29 secs                        [2..44] minutes
-  44 mins, 30 secs          <-> 1 hr, 29 mins, 59 secs                  about 1 hour
-  1 hr, 30 mins             <-> 23 hrs, 59 mins, 29 secs                [2..23] hours
-  23 hrs, 59 mins, 30 secs  <-> 47 hrs, 59 mins, 29 secs                1 day
-  47 hrs, 59 mins, 30 secs  <-> 29 days, 23 hrs, 59 mins, 29 secs       [2..29] days
-  29 days, 23:59:30         <-> 59 days, 23 hrs, 59 mins, 29 secs       about 1 month
-  59 days, 23:59:30         <-> 1 year minus 1 sec                      [2..11] months
-  1 year                    <-> 2 years minus 1 sec                     about 1 year
-  2 years or more                                                       over N years
+  0 secs             <-> 29 secs                     less than a minute
+  30 secs            <-> 1 min, 29 secs              1 minute
+  1 min, 30 secs     <-> 44 mins, 29 secs            [2..44] minutes
+  44 mins, 30 secs   <-> 1 hr, 29 mins, 59 secs      about 1 hour
+  1 hr, 30 mins      <-> 23 hrs, 29 mins, 59 secs    [2..23] hours
+  23 hrs, 30 mins    <-> 1 day, 11 hrs, 59 mins      about 1 day
+  1 day, 12 hrs      <-> 29 days, 11 hrs, 59 mins    [2..29] days
+  29 days, 12 hrs    <-> 1 month, 14 days            about 1 month
+  1 month, 15 days   <-> 11 months                   [2..11] months
+  12 months          <-> 17 months                   about 1 year
+  18 months and up                                   over N years
 ```
 
-Everything up to the two-month mark is decided on the exact number of elapsed
-seconds. Months and years use the calendar fields of the interval instead because
-their length varies.
+So 47 hours reads "2 days" rather than "1 day", and 59 days reads "2 months"
+rather than "about 1 month".
+
+Minutes, hours and days have a fixed length and are decided on the exact number of
+elapsed seconds. Months and years vary, so they are decided on the calendar fields
+of the interval — which is why 1 February to 1 April is two months in every year,
+and not one month whenever February happens to be short.
+
+`over N years` counts whole years elapsed rather than rounding, so it is never an
+overstatement: an interval of 1 year 11 months reads "over 1 year", never
+"over 2 years".
 
 The rules live in `Classifier`, which is a constructor argument of
 `IntervalFormatter`, so they can be swapped out wholesale if the defaults do not

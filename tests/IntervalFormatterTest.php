@@ -28,9 +28,9 @@ final class IntervalFormatterTest extends TestCase
     private const string NOW = '2020-06-15 12:00:00';
 
     /**
-     * Every boundary of every rule, expressed as the number of seconds before
-     * self::NOW. The values one second either side of a boundary are what keep
-     * the rule table honest.
+     * Every threshold, expressed as the number of seconds before self::NOW, with
+     * the value on each side of it. A threshold is the second at which the
+     * rounded count ticks over.
      *
      * @return iterable<string, array{int, string}>
      */
@@ -44,11 +44,10 @@ final class IntervalFormatterTest extends TestCase
         yield '60 seconds' => [60, '1 minute ago'];
         yield '89 seconds' => [89, '1 minute ago'];
 
-        // Regression: the 2..44 minute bucket opens at 1m30s, which used to be
-        // rendered as the ungrammatical "1 minutes ago".
         yield '90 seconds' => [90, '2 minutes ago'];
         yield '2 minutes' => [120, '2 minutes ago'];
-        yield '2 minutes 40 seconds' => [160, '2 minutes ago'];
+        // Rounds up: 2m40s is nearer three minutes than two.
+        yield '2 minutes 40 seconds' => [160, '3 minutes ago'];
         yield '44 minutes' => [2640, '44 minutes ago'];
         yield '44 minutes 29 seconds' => [2669, '44 minutes ago'];
 
@@ -59,22 +58,19 @@ final class IntervalFormatterTest extends TestCase
         yield '90 minutes' => [5400, '2 hours ago'];
         yield '110 minutes' => [6600, '2 hours ago'];
         yield '2 hours' => [7200, '2 hours ago'];
-        yield '23 hours 59 minutes 29 seconds' => [86369, '23 hours ago'];
+        yield '23 hours 29 minutes 59 seconds' => [84599, '23 hours ago'];
 
-        yield '23 hours 59 minutes 30 seconds' => [86370, '1 day ago'];
+        yield '23 hours 30 minutes' => [84600, '1 day ago'];
         yield '24 hours' => [86400, '1 day ago'];
-        yield '47 hours 59 minutes 29 seconds' => [172769, '1 day ago'];
+        yield '1 day 11 hours 59 minutes 59 seconds' => [129599, '1 day ago'];
 
-        // Regression: the 2..29 day bucket opens at 47h59m30s, which used to be
-        // rendered as "1 days ago".
-        yield '47 hours 59 minutes 30 seconds' => [172770, '2 days ago'];
+        yield '1 day 12 hours' => [129600, '2 days ago'];
+        // Regression: 47 hours used to read "1 day", because the bucket ran to 48.
+        yield '47 hours' => [169200, '2 days ago'];
         yield '3 days' => [259200, '3 days ago'];
-        yield '29 days 23 hours 59 minutes 29 seconds' => [2591969, '29 days ago'];
+        yield '29 days 11 hours 59 minutes 59 seconds' => [2548799, '29 days ago'];
 
-        yield '29 days 23 hours 59 minutes 30 seconds' => [2591970, 'about 1 month ago'];
-        yield '59 days 23 hours 59 minutes 29 seconds' => [5183969, 'about 1 month ago'];
-
-        yield '59 days 23 hours 59 minutes 30 seconds' => [5183970, '2 months ago'];
+        yield '29 days 12 hours' => [2548800, 'about 1 month ago'];
     }
 
     #[DataProvider('secondsAgoProvider')]
@@ -96,9 +92,13 @@ final class IntervalFormatterTest extends TestCase
     {
         yield '3 months' => ['2020-03-15 12:00:00', '3 months ago'];
         yield '11 months' => ['2019-07-01 12:00:00', '11 months ago'];
-        yield 'a few days short of a year' => ['2019-06-19 12:00:00', '11 months ago'];
+        yield 'a few days short of a year' => ['2019-06-19 12:00:00', 'about 1 year ago'];
         yield 'exactly a year' => ['2019-06-15 12:00:00', 'about 1 year ago'];
-        yield 'a year and 11 months' => ['2018-07-15 12:00:00', 'about 1 year ago'];
+        yield 'a year and 5 months' => ['2019-01-15 12:00:00', 'about 1 year ago'];
+        // Past 17 months the phrase switches, so that "about 1 year" stops being
+        // asked to cover something nearly two years old.
+        yield 'a year and a half' => ['2018-12-15 12:00:00', 'over 1 year ago'];
+        yield 'a year and 11 months' => ['2018-07-15 12:00:00', 'over 1 year ago'];
         yield 'exactly two years' => ['2018-06-15 12:00:00', 'over 2 years ago'];
         yield 'two years and two months' => ['2018-04-15 12:00:00', 'over 2 years ago'];
         yield 'three years' => ['2017-06-15 12:00:00', 'over 3 years ago'];
@@ -138,6 +138,55 @@ final class IntervalFormatterTest extends TestCase
         self::assertSame('2 months ago', (new IntervalFormatter())->inWords(
             new DateTimeImmutable('2022-07-01 15:00:00'),
             new DateTimeImmutable('2022-09-01 14:00:00'),
+        ));
+    }
+
+    /**
+     * Reported: two dates two months apart read "2 months", but a second less
+     * read "about 1 month". The old bucket ran from 30 days to 60, so it was
+     * swallowing everything up to two whole months.
+     *
+     * @return iterable<string, array{string}>
+     */
+    public static function nearlyTwoMonthsProvider(): iterable
+    {
+        yield 'one second under the old threshold' => ['PT5183969S'];
+        yield 'exactly the old threshold' => ['PT5183970S'];
+        yield '50 days' => ['P50D'];
+        yield '59 days' => ['P59D'];
+    }
+
+    #[DataProvider('nearlyTwoMonthsProvider')]
+    public function testTheMonthBucketNoLongerSwallowsTwoMonths(string $spec): void
+    {
+        $now = new DateTimeImmutable('2021-06-15 12:00:00', new DateTimeZone('UTC'));
+
+        self::assertSame(
+            '2 months ago',
+            (new IntervalFormatter())->inWords($now->sub(new DateInterval($spec)), $now),
+        );
+    }
+
+    /**
+     * The same calendar delta used to answer differently depending on whether
+     * February was short, because the month handover was a fixed day count.
+     *
+     * @return iterable<string, array{string}>
+     */
+    public static function februaryProvider(): iterable
+    {
+        yield '2021, 59 days' => ['2021'];
+        yield '2024, 60 days' => ['2024'];
+    }
+
+    #[DataProvider('februaryProvider')]
+    public function testTwoCalendarMonthsReadTheSameInEveryYear(string $year): void
+    {
+        $timeZone = new DateTimeZone('UTC');
+
+        self::assertSame('2 months ago', (new IntervalFormatter())->inWords(
+            new DateTimeImmutable($year . '-02-01 12:00:00', $timeZone),
+            new DateTimeImmutable($year . '-04-01 12:00:00', $timeZone),
         ));
     }
 
