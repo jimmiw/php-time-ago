@@ -1,231 +1,320 @@
-# Add time ago functionality to your project
+# php-time-intervals
 
-[![Latest Stable Version](https://poser.pugx.org/jimmiw/php-time-ago/v/stable)](https://packagist.org/packages/jimmiw/php-time-ago)
-[![Total Downloads](https://poser.pugx.org/jimmiw/php-time-ago/downloads)](https://packagist.org/packages/jimmiw/php-time-ago)
-[![Build Status](https://travis-ci.org/jimmiw/php-time-ago.svg?branch=master)](https://travis-ci.org/jimmiw/php-time-ago)
-[![License](https://poser.pugx.org/jimmiw/php-time-ago/license)](https://packagist.org/packages/jimmiw/php-time-ago)
-[![OpenCollective](https://opencollective.com/php-time-ago/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/php-time-ago/sponsors/badge.svg)](#sponsors)
+Describe the distance between two points in time in words — "3 days ago", "in 3 days",
+"3 days", or "3d ago" — in 35 languages, with CLDR plural rules applied in each.
 
+```php
+use Alexxiy\TimeIntervals\IntervalFormatter;
 
-# Getting started
-
-The package is availabe here on Github and on Packagist
-
-* https://github.com/jimmiw/php-time-ago
-* https://packagist.org/packages/jimmiw/php-time-ago
-
-## Installing
-
-Using composer you can just do the following
-
-```
-composer require jimmiw/php-time-ago
+echo (new IntervalFormatter())->inWords(new DateTimeImmutable('2010-01-10 23:05:00'));
 ```
 
-## PHP Version notes
+## Requirements
 
-From version 3.3.0, we are not supporting the old php version. This is PHP 8.2 and up.
-This change was done, as there are security issues with older version of both PHP and PHPUnit.
+PHP 8.5 or newer. No extensions, no runtime dependencies.
 
-This means that version 3.2.x and below support PHP 8.1 and below.
-
-## Using the component
-
-There are two ways of getting the time ago in words.
-
-By passing `DateTime` objects:
+## Installation
 
 ```
-$timeAgo = new Westsworld\TimeAgo();
-echo $timeAgo->inWords(new DateTime("2010-01-10 23:05:00"));
+composer require alexxiy/php-time-intervals
 ```
 
-By passing strings:
+## Usage
 
-```
-$timeAgo = new Westsworld\TimeAgo();
-echo $timeAgo->inWordsFromStrings("2010/1/10 23:05:00");
-```
+### The basics
 
-Both methods give the same answer, and use the same internal logic.
+```php
+use Alexxiy\TimeIntervals\IntervalFormatter;
 
-## Do you want the actual years, months, days, hours, minutes, seconds difference?
+$formatter = new IntervalFormatter();
 
-Good news for you then!
-I've implemented a nice little function that does just that for you. Simply do the
-following:
+echo $formatter->inWords(new DateTimeImmutable('-3 days'));   // "3 days ago"
+echo $formatter->inWords(new DateTimeImmutable('+3 days'));   // "in 3 days"
 
-```
-$timeAgo = new Westsworld\TimeAgo();
-// NOTE: this is actually deprecated, since DateTime does the same. Still works though :)
-$dateDifferenceArray =  $timeAgo->dateDifference("2017-03-02 07:53:00", "2017-03-02 07:53:01");
+// Against an explicit second date rather than the current time.
+echo $formatter->inWords(
+    new DateTimeImmutable('2022-07-01 15:00:00'),
+    new DateTimeImmutable('2022-09-01 14:00:00'),
+);                                                          // "2 months ago"
 ```
 
-This will return an array with the following data:
+`inWords()` accepts any `DateTimeInterface`, so `DateTime` and `DateTimeImmutable`
+both work, and neither argument is modified. When `$now` is omitted, it defaults to
+the current time in the given date's timezone.
 
-```
-[
-	'years' => 0
-	'months' => 0
-	'days' => 0
-	'hours' => 0
-	'minutes' => 0
-	'seconds' => 1
-]
-```
+### Tense
 
+By default, the direction of the interval decides how it is phrased: a date in the
+past reads "3 days ago", one in the future reads "in 3 days". Ask for `Tense::Plain`
+to get the bare span with no direction attached.
 
-# How to determine, what "ago" is
+```php
+use Alexxiy\TimeIntervals\Tense;
 
-```
-  0 <-> 29 secs                                                             # => less than a minute
-  30 secs <-> 1 min, 29 secs                                                # => 1 minute
-  1 min, 30 secs <-> 44 mins, 29 secs                                       # => [2..44] minutes
-  44 mins, 30 secs <-> 89 mins, 29 secs                                     # => about 1 hour
-  89 mins, 29 secs <-> 23 hrs, 59 mins, 29 secs                             # => about [2..24] hours
-  23 hrs, 59 mins, 29 secs <-> 47 hrs, 59 mins, 29 secs                     # => 1 day
-  47 hrs, 59 mins, 29 secs <-> 29 days, 23 hrs, 59 mins, 29 secs            # => [2..29] days
-  29 days, 23 hrs, 59 mins, 30 secs <-> 59 days, 23 hrs, 59 mins, 29 secs   # => about 1 month
-  59 days, 23 hrs, 59 mins, 30 secs <-> 1 yr minus 1 sec                    # => [2..12] months
-  1 yr <-> 2 yrs minus 1 secs                                               # => about 1 year
-  2 yrs <-> max time or date                                                # => over [2..X] years
+echo $formatter->inWords($date, tense: Tense::Plain);    // "3 days"
 ```
 
-# Changes since last version
+Pin a tense for every call by passing it to the constructor or derive a pinned
+instance from an existing one:
 
-Lots have changed since the last version. The WWDateTime class is no longer supported.
-I have implemented a new class which takes a time string as parameter (and a
-timezone if needed), and calculates the time between them.
+```php
+$plain = new IntervalFormatter(tense: Tense::Plain);
+$plain = $formatter->withTense(Tense::Plain);
 
-By request from "lsolesen" (a guy from here on github) I did removed the whole
-DateTime dependence thingy.
-
-# About
-
-Inspired by the comments at:
-
-http://dk.php.net/time
-
-http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#M001695
-
-You should really look in to the Carbon project, it looks very nice and gives the same functionality and a lot more.
-
-This class is here to give you the same functionality that DateTime::diff will give you.
-
-
-# Translations added
-
-*Version 0.4.x was the big translations release.*
-
-You can now translate the texts returned using the $timeAgo->inWords() or timeAgoInWords() methods.
-The translation is simply a language code string added to the end of the class init or timeAgoInWords() method.
-
-Examples using the Danish translations:
-
-```
-$myLang = new \Westsworld\TimeAgo\Translations\Da();
-
-$timeAgo = new Westsworld\TimeAgo($myLang); // default language is en (english)
-echo $timeAgo->inWords("2010/1/10 23:05:00");
+echo $plain->inWords(new DateTimeImmutable('-2 hours'));   // "2 hours"
+echo $plain->inWords(new DateTimeImmutable('+2 hours'));   // "2 hours"
 ```
 
-# Available translation languages
+A pinned tense overrides the direction of the interval, so `Tense::Past` will say
+"3 days ago" about a date three days from now. `withTense(null)` goes back to
+following the interval.
 
-You can view the file of available list inside /src/Westsworld/TimeAgo/Translations/ folder.
+The per-call `tense:` argument beats the pinned one and leaves the instance alone.
 
-# Changelog
+### Style
 
-For a full list of changes, please see Changelog.md
+Independently of the tense, the wording can be full or abbreviated:
 
-# Backers
+```php
+use Alexxiy\TimeIntervals\Style;
 
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/php-time-ago#backer)]
+$fiveDaysAgo = new DateTimeImmutable('-5 days');
 
-<a href="https://opencollective.com/php-time-ago/backer/0/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/0/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/1/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/1/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/2/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/2/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/3/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/3/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/4/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/4/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/5/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/5/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/6/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/6/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/7/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/7/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/8/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/8/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/9/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/9/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/10/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/10/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/11/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/11/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/12/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/12/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/13/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/13/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/14/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/14/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/15/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/15/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/16/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/16/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/17/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/17/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/18/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/18/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/19/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/19/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/20/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/20/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/21/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/21/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/22/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/22/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/23/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/23/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/24/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/24/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/25/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/25/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/26/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/26/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/27/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/27/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/28/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/28/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/backer/29/website" target="_blank"><img src="https://opencollective.com/php-time-ago/backer/29/avatar.svg"></a>
+echo $formatter->inWords($fiveDaysAgo, style: Style::Short);   // "5d ago"
+```
 
-# Sponsors
+The two axes are orthogonal, so every combination is available:
 
-Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/php-time-ago#sponsor)]
+|                  | `Style::Full`   | `Style::Short` |
+| ---------------- | --------------- | -------------- |
+| `Tense::Past`    | `5 minutes ago` | `5m ago`       |
+| `Tense::Future`  | `in 5 minutes`  | `in 5m`        |
+| `Tense::Plain`   | `5 minutes`     | `5m`           |
 
-<a href="https://opencollective.com/php-time-ago/sponsor/0/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/1/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/2/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/3/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/4/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/5/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/6/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/7/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/8/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/9/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/9/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/10/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/10/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/11/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/11/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/12/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/12/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/13/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/13/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/14/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/14/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/15/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/15/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/16/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/16/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/17/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/17/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/18/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/18/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/19/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/19/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/20/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/20/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/21/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/21/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/22/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/22/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/23/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/23/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/24/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/24/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/25/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/25/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/26/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/26/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/27/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/27/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/28/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/28/avatar.svg"></a>
-<a href="https://opencollective.com/php-time-ago/sponsor/29/website" target="_blank"><img src="https://opencollective.com/php-time-ago/sponsor/29/avatar.svg"></a>
+Style is set the same three ways as tense — constructor, `withStyle()`, or a
+per-call argument:
 
-# MIT License
+```php
+$short = new IntervalFormatter(style: Style::Short);
+$short = $formatter->withStyle(Style::Short);
 
-Copyright © 2014 Jimmi Westerberg (http://westsworld.dk)
+$short->inWords(new DateTimeImmutable('-5 days'));   // "5d ago"
+$short->inWords(new DateTimeImmutable('+5 days'));   // "in 5d"
+```
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Abbreviations do not inflect, which is a feature rather than a shortcut: Russian
+writes `2 д`, `5 д` and `21 д` alike where the spelled-out noun would need three
+different endings.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+23 of the 35 languages ship abbreviations. The rest fall back to their full forms,
+which is the right answer rather than a gap — Japanese `5日前` is already as short
+as it gets. `Locale::Japanese->language()->vocabulary()->abbreviates()` tells you
+which is which, and `TRANSLATIONS.md` lists them.
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+### Languages
+
+Pick one of the bundled languages through the `Locale` enum:
+
+```php
+use Alexxiy\TimeIntervals\IntervalFormatter;
+use Alexxiy\TimeIntervals\Locale;
+
+echo IntervalFormatter::forLocale(Locale::Russian)->inWords($date);   // "3 дня назад"
+echo IntervalFormatter::forLocale(Locale::German)->inWords($date);    // "vor 3 Tagen"
+```
+
+`Locale` is a string-backed enum keyed by BCP 47 tag, which makes it easy to drive
+from user input without a lookup table of your own:
+
+```php
+$locale = Locale::tryFrom($request->getLocale()) ?? Locale::English;
+
+echo IntervalFormatter::forLocale($locale)->inWords($date);
+```
+
+`Locale::label()` returns the English name of each locale for building a picker:
+
+```php
+foreach (Locale::cases() as $locale) {
+    printf('<option value="%s">%s</option>', $locale->value, $locale->label());
+}
+```
+
+`IntervalFormatter` is immutable, so you can also derive one instance from
+another. The pinned tense carries across:
+
+```php
+$english = new IntervalFormatter(tense: Tense::Plain);
+$polish  = $english->withLocale(Locale::Polish);
+```
+
+### Plural forms
+
+Counts are pluralized with the CLDR rules for each language, so the languages that
+need more than one plural form get them:
+
+```php
+$ru = IntervalFormatter::forLocale(Locale::Russian);
+
+$ru->inWords($twoDaysAgo);          // "2 дня назад"
+$ru->inWords($fiveDaysAgo);         // "5 дней назад"
+$ru->inWords($twentyOneDaysAgo);    // "21 день назад"
+```
+
+Arabic gets its dual, Latvian its form for the teens and the round tens, Czech and
+Polish their own splits. See `PluralRule` for the rules and which language uses each.
+
+### "Never"
+
+For records that have no date at all:
+
+```php
+echo $formatter->never();   // "Never"
+```
+
+### Your own language
+
+A language is a bag of strings: the three tenses of the full style, the word for
+"never", and optionally the three tenses of the short style. Implement `Language`
+and hand it to `IntervalFormatter`; it does not need to be registered anywhere.
+
+Here is a complete one that signs the interval instead of wording it, which is
+handy for logs. Its output is already terse, so it omits `short` and lets the
+short style serve these same forms:
+
+```php
+use Alexxiy\TimeIntervals\IntervalFormatter;
+use Alexxiy\TimeIntervals\Language;
+use Alexxiy\TimeIntervals\PluralForms;
+use Alexxiy\TimeIntervals\PluralRule;
+use Alexxiy\TimeIntervals\TenseSet;
+use Alexxiy\TimeIntervals\TenseVocabulary;
+use Alexxiy\TimeIntervals\Vocabulary;
+
+final class Signed implements Language
+{
+    public function vocabulary(): Vocabulary
+    {
+        return new Vocabulary(
+            plurals: PluralRule::OtherOnly,
+            full: new TenseSet(
+                past: new TenseVocabulary(
+                    lessThanAMinute: '-0m',
+                    oneMinute:       '-1m',
+                    minutes:         new PluralForms('-%sm'),
+                    aboutOneHour:    '-1h',
+                    hours:           new PluralForms('-%sh'),
+                    aboutOneDay:     '-1d',
+                    days:            new PluralForms('-%sd'),
+                    aboutOneMonth:   '-1mo',
+                    months:          new PluralForms('-%smo'),
+                    aboutOneYear:    '-1y',
+                    years:           new PluralForms('-%sy'),
+                ),
+                future: new TenseVocabulary(/* +0m, +1m, +%sm, ... */),
+                plain:  new TenseVocabulary(/* 0m, 1m, %sm, ... */),
+            ),
+            never: '-',
+        );
+    }
+}
+
+$signed = new IntervalFormatter(new Signed());
+
+echo $signed->inWords(new DateTimeImmutable('-5 days'));   // "-5d"
+echo $signed->inWords(new DateTimeImmutable('+5 days'));   // "+5d"
+```
+
+The full version of this example lives in `tests/Fixtures/Signed.php` and is
+asserted by `tests/CustomLanguageTest.php`, so it cannot drift from the code.
+
+Every tense of the full style is a required constructor argument, so a language
+cannot be written half-finished. `short` is optional; supply it as a whole
+`TenseSet` or not at all, which stops a language knowing how to say "5m ago" but
+not "in 5m". Within a counted phrase only `other` is required, and the remaining
+plural categories fall back to it. For a phrase that genuinely does not inflect,
+say so with `PluralForms::invariant('%sd ago')` rather than repeating yourself.
+
+Counted phrases are `sprintf()` patterns and must contain exactly one `%s` —
+except the `zero`, `one` and `two` forms, which may spell the number out as a word
+instead. Uncounted phrases are used verbatim and are never passed through
+`sprintf()`, so a literal percent sign in them is safe.
+
+Note that `Locale` holds languages, not formats: its cases are real BCP 47 tags so
+that `Locale::tryFrom($acceptLanguageHeader)` is meaningful. Presentation choices
+belong on the `Style` axis, or in your own code.
+
+## How the interval is described
+
+An interval is described by the unit it is *nearest to*, not the one it has merely
+reached. Every threshold below is the point at which the rounded count ticks over:
+
+```
+  0 secs             <-> 29 secs                     less than a minute
+  30 secs            <-> 1 min, 29 secs              1 minute
+  1 min, 30 secs     <-> 44 mins, 29 secs            [2..44] minutes
+  44 mins, 30 secs   <-> 1 hr, 29 mins, 59 secs      about 1 hour
+  1 hr, 30 mins      <-> 23 hrs, 29 mins, 59 secs    [2..23] hours
+  23 hrs, 30 mins    <-> 1 day, 11 hrs, 59 mins      about 1 day
+  1 day, 12 hrs      <-> 29 days, 11 hrs, 59 mins    [2..29] days
+  29 days, 12 hrs    <-> 1 month, 14 days            about 1 month
+  1 month, 15 days   <-> 11 months                   [2..11] months
+  12 months          <-> 17 months                   about 1 year
+  18 months and up                                   over N years
+```
+
+So 47 hours reads "2 days" rather than "1 day", and 59 days reads "2 months"
+rather than "about 1 month".
+
+Minutes, hours and days have a fixed length and are decided on the exact number of
+elapsed seconds. Months and years vary, so they are decided on the calendar fields
+of the interval — which is why 1 February to 1 April is two months in every year,
+and not one month whenever February happens to be short.
+
+`over N years` counts whole years elapsed rather than rounding, so it is never an
+overstatement: an interval of 1 year 11 months reads "over 1 year", never
+"over 2 years".
+
+The rules live in `Classifier`, which is a constructor argument of
+`IntervalFormatter`, so they can be swapped out wholesale if the defaults do not
+suit you.
+
+## Translation quality
+
+The `past` phrases come from the original contributors to `jimmiw/php-time-ago`.
+The `future` and `plain` phrases, the plural forms, and the abbreviations were
+added in this package and have not all been through a native speaker.
+`TRANSLATIONS.md` says which languages that applies to; corrections are very
+welcome.
+
+The plural *rules* themselves are implemented from the published CLDR tables and
+are checked against them in `tests/PluralRuleTest.php`.
+
+## Development
+
+The project ships a PHPUnit suite, PHPStan at level `max`, and PSR-12 linting.
+
+```bash
+composer install
+composer check
+```
+
+Or individually:
+
+```bash
+composer test
+composer analyse
+composer lint
+composer test:coverage
+```
+
+## Credits
+
+This is a fork of [jimmiw/php-time-ago](https://github.com/jimmiw/php-time-ago) by
+Jimmi Westerberg, whose translations are the bulk of the value here. The public
+API, the rule engine, and the type design were rewritten for this package; see
+`CHANGELOG.md` for what changed and why.
+
+## License
+
+MIT. See `LICENSE`.

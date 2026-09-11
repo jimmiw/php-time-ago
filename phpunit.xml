@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    colors="true"
-    forceCoversAnnotation="false"
-    bootstrap="vendor/autoload.php">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         requireCoverageMetadata="false"
+         beStrictAboutCoverageMetadata="false"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnNotice="true"
+         failOnDeprecation="true"
+         colors="true">
+    <testsuites>
+        <testsuite name="php-time-intervals">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
 
-    <testsuite name="php-time-ago">
-        <directory>./tests/</directory>
-    </testsuite>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
 
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./</directory>
-            <exclude>
-                <directory suffix=".php">./vendor</directory>
-                <directory suffix=".php">./translations</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-html" target="./report" lowUpperBound="50" highLowerBound="80" />
-        <log type="testdox-html" target="./report/testdox.html" />
-    </logging>
+    <!--
+        No coverage reports are configured here on purpose. A configured report
+        makes PHPUnit collect coverage on every run, and with no xdebug or pcov
+        installed that turns into a runner warning which failOnWarning escalates
+        into running no tests at all. Ask for coverage from the command line
+        instead: `composer test:coverage`.
+    -->
 </phpunit>

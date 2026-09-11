@@ -1,0 +1,13 @@
+# Keep the dist archive to what a consumer actually needs. Everything below is
+# development scaffolding and is stripped from `composer require` installs.
+#
+# CHANGELOG.md and TRANSLATIONS.md deliberately stay in: the first is read during
+# upgrades, and the second tells you which locales are still awaiting a native
+# speaker, which is something you want while choosing one.
+/.github            export-ignore
+/tests              export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/phpcs.xml          export-ignore
+/phpstan.neon       export-ignore
+/phpunit.xml        export-ignore

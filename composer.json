@@ -1,30 +1,53 @@
 {
-    "name": "jimmiw/php-time-ago",
-    "description": "Simple module, that displays the date in a \"time ago\" format",
-    "keywords": ["time ago", "distance of time", "time ago in words"],
-    "homepage": "https://github.com/jimmiw/php-time-ago",
+    "name": "alexxiy/php-time-intervals",
+    "description": "Describe the distance between two points in time in words, in 35 languages",
+    "keywords": ["time ago", "time interval", "distance of time", "time ago in words", "humanize", "relative time"],
+    "homepage": "https://github.com/alexxiy/php-time-intervals",
     "license": "MIT",
+    "type": "library",
     "authors": [
+        {
+            "name": "Alexxiy",
+            "role": "Developer"
+        },
         {
             "name": "Jimmi Westerberg",
             "homepage": "http://www.westsworld.dk",
-            "role": "Developer"
+            "role": "Original author of jimmiw/php-time-ago"
         }
     ],
+    "support": {
+        "issues": "https://github.com/alexxiy/php-time-intervals/issues",
+        "source": "https://github.com/alexxiy/php-time-intervals"
+    },
     "require": {
-        "php": ">=8.2.0"
+        "php": "^8.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.5",
-        "phpmd/phpmd": "@stable",
-        "squizlabs/php_codesniffer": "^3.3"
+        "phpunit/phpunit": "^12.0",
+        "phpstan/phpstan": "^2.1",
+        "squizlabs/php_codesniffer": "^3.11"
     },
     "autoload": {
-		"psr-4": {
-			"Westsworld\\": "src/Westsworld/"
-		}
+        "psr-4": {
+            "Alexxiy\\TimeIntervals\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alexxiy\\TimeIntervals\\Tests\\": "tests/"
+        }
     },
     "config": {
-        "bin-dir": "vendor/bin/"
+        "bin-dir": "vendor/bin/",
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "@php -d memory_limit=512M vendor/bin/phpunit --coverage-html build/coverage --coverage-text",
+        "analyse": "phpstan analyse --memory-limit=512M",
+        "lint": "phpcs",
+        "lint:fix": "phpcbf",
+        "check": ["@lint", "@analyse", "@test"]
     }
 }
